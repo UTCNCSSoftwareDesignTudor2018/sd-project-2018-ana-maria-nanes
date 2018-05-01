@@ -1,9 +1,9 @@
 package com.healthportal.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +27,22 @@ public class User implements java.io.Serializable {
     private String gender;
     private String role;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<UserDisease> userDiseases;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<UserHospital> userHospitals;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "user")
+    private ShoppingCart shoppingCart;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "user")
+    private WishList wishList;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "user")
+    private RecommendedList recommendedList;
 
     public User() {
 
@@ -44,6 +58,7 @@ public class User implements java.io.Serializable {
         this.gender = gender;
         this.role = role;
         this.userDiseases = new ArrayList<>();
+        this.userHospitals = new ArrayList<>();
     }
 
 
@@ -117,5 +132,29 @@ public class User implements java.io.Serializable {
 
     public void setUserDiseases(List<UserDisease> userDiseases) {
         this.userDiseases = userDiseases;
+    }
+
+    public List<UserHospital> getUserHospitals() {
+        return userHospitals;
+    }
+
+    public void setUserHospitals(List<UserHospital> userHospitals) {
+        this.userHospitals = userHospitals;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
+
+    public WishList getWishList() {
+        return wishList;
+    }
+
+    public void setWishList(WishList wishList) {
+        this.wishList = wishList;
     }
 }

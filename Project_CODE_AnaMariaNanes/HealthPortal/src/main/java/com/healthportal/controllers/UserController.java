@@ -1,13 +1,9 @@
 package com.healthportal.controllers;
 
-import com.healthportal.dto.DiseaseDTO;
-import com.healthportal.dto.UserDTO;
-import com.healthportal.entities.Disease;
+import com.healthportal.dto.*;
 import com.healthportal.entities.User;
 import com.healthportal.services.UserService;
 import org.springframework.web.bind.annotation.*;
-
-
 import javax.inject.Inject;
 import java.util.List;
 
@@ -40,11 +36,10 @@ public class UserController {
 	 
 	 @RequestMapping(value= "/added", method = RequestMethod.POST)
 	 public User addUser(@RequestBody User user) {
-	 	
 		 return userService.addUser(user);
 	 } 
 	 
-	 @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	 public User updateUser(@PathVariable("id") int id,@RequestBody User user) {
 		 return userService.updateUser(id,user);
 	 }
@@ -53,5 +48,20 @@ public class UserController {
 	public List<DiseaseDTO> getUserDiseases(@PathVariable("id") int id) {
 		return userService.findUserDiseases(id);
 	}
+
+	@RequestMapping(value = "/{id}/hospitals", method = RequestMethod.GET)
+	public List<HospitalDTO> getUserHospitals(@PathVariable("id") int id) {
+		return userService.findUserHospitals(id);
+	}
+
+	@RequestMapping(value = "/{id}/shoppingCart", method = RequestMethod.GET)
+	public ShoppingCartDTO getUserShoppingCart (@PathVariable("id") int id) {
+		return userService.findUserShoppingCart(id);
+	}
+
+    @RequestMapping(value = "/{id}/wishList", method = RequestMethod.GET)
+    public WishListDTO getUserWishList (@PathVariable("id") int id) {
+        return userService.findUserWishList(id);
+    }
 
 }

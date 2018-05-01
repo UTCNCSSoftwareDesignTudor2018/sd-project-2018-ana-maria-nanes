@@ -1,9 +1,7 @@
 package com.healthportal.services;
 
-import com.healthportal.dto.DiseaseDTO;
-import com.healthportal.dto.UserDTO;
-import com.healthportal.entities.Disease;
-import com.healthportal.entities.User;
+import com.healthportal.dto.*;
+import com.healthportal.entities.*;
 import com.healthportal.errorhandler.EntityValidationException;
 import com.healthportal.errorhandler.ResourceNotFoundException;
 import com.healthportal.repositories.UserRepository;
@@ -148,6 +146,48 @@ public class UserService {
         return toReturn;
     }
 
+    public List<HospitalDTO> findUserHospitals(int id){
+ 		List<HospitalDTO> toReturn = new ArrayList<>();
+ 		List<Hospital> hospitals = new ArrayList<>();
+
+ 		User user = userRepository.findByUserId(id);
+
+ 		user.getUserHospitals().stream().forEach(e -> hospitals.add(e.getHospital()));
+ 		for(Hospital hospital: hospitals){
+			HospitalDTO dto = new HospitalDTO.Builder()
+					.hospitalId(hospital.getHospitalId())
+					.hospitalName(hospital.getHospitalName())
+					.address(hospital.getAddress())
+					.website(hospital.getWebsite())
+					.phoneNumber(hospital.getPhoneNumber())
+					.create();
+			toReturn.add(dto);
+		}
+		return toReturn;
+	}
+
+	public ShoppingCartDTO findUserShoppingCart(int id){
+         User user = userRepository.findByUserId(id);
+         ShoppingCart cart = user.getShoppingCart();
+
+         ShoppingCartDTO dto = new ShoppingCartDTO.Builder()
+                              .cartId(cart.getCartId())
+                              .productNo(cart.getProductNo())
+                              .totalCost(cart.getTotalCost())
+                              .create();
+         return dto;
+    }
+
+    public WishListDTO findUserWishList(int id){
+          User user = userRepository.findByUserId(id);
+          WishList list = user.getWishList();
+
+          WishListDTO dto = new WishListDTO.Builder()
+                            .wishListId(list.getWishListId())
+                            .create();
+          return dto;
+    }
+
 	public int create(UserDTO userDTO) {
 
 		List<String> validationErrors = validateUser(userDTO);
@@ -170,6 +210,7 @@ public class UserService {
 
 		return usr.getUserId();
 	}
+
 
 	private List<String> validateUser(UserDTO user) {
 		List<String> validationErrors = new ArrayList<String>();

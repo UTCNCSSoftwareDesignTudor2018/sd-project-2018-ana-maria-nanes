@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<style>
+body {
+        background-image: url("images/health.jpg");
+} 
+
+.title {
+       color : black;
+       margin-left : 220px;
+       margin-top : 150px;
+       font-size : 500%;
+}
+
+.message{
+       color: black;
+       margin-left : 360px;
+       font-size : 200%;
+}
+
+.login{
+        margin-left : 425px;
+        background-color: transparent;
+}
+
+.buttonLogIn{
+        margin-left : 530px;
+}
+
+
+</style>
+
+</head>
+
+<body>
+	<div class ="title" >THE HEALTH PORTAL</div>
+	<div class = "message">{{message}}</div>
+	<br>
+	<br>
+	<form class= "login">
+		<br>
+    	<p>Username: <input type="text" ng-model="username" /></p>
+    	<br> 
+    	<p>Password: <input type="password" ng-model="password" /></p>
+    </form>
+	<br>
+	<div id="logIn" class="buttonLogIn">
+		 <a id="loginBtn" class='btn btn-success btn-lg'  ng-click='CheckPassword(username)' ng-href = '{{redirectLink}}'>Login</a>
+	</div>
+	
+	
+</body>
+
+</html>

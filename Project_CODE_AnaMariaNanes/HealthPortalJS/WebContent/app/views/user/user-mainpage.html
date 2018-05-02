@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+
+<style>
+
+.navbar-brand {
+   color : black;
+   bold : true;
+}
+
+body {
+        background-image: url("images/health_faded.jpg");
+} 
+
+</style>
+
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+	rel="stylesheet">
+</head>
+
+
+<body>
+			<div class="navbar navbar-fixed-top">
+		  <div class="container">
+			
+			 <div class="navbar-header">
+				<a class="navbar-brand" href="#/user/{{user.userId}}/fruits"><b>FRUITS</b> </a>
+			</div>  
+			
+			 <div class="navbar-header">
+				<a class="navbar-brand" href="#/user/{{user.userId}}/herbs"><b>HERBS<b></a>
+			</div>   
+			
+			 <div class="navbar-header">
+				<a class="navbar-brand" href="#/user/{{user.userId}}/vegetables"><b>VEGETABLES<b></a>
+			</div>   
+			 
+			 
+			 <div class="navbar-header">
+				<a class="navbar-brand" href="#/user/{{user.userId}}/hospitals"><b>HOSPITALS<b></a>
+			</div>  	
+			
+			 <div class="navbar-header">
+				<a class="navbar-brand" href="#/user/{{user.userId}}/diseases"><b>DISEASES<b></a>
+			</div>  
+					
+	    </div>
+      </div>
+      
+			<div>Hello user {{user.name}}!</div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="health-portalJS">
+<head lang="en">
+<meta charset="UTF-8">
+<title>Health-Portal</title>
+
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+	rel="stylesheet">
+	
+</head>
+
+<body>
+
+
+	
+	<br />
+	<br />
+	<br />
+	<br />
+	
+	<div class="container">
+		<div ng-view=""></div>
+		
+	</div>
+	<!-- LIBS -->
+	
+	<script src="assets/js/angular.min.js"></script>
+	<script src="assets/js/angular-route.min.js"></script>
+
+	<!-- APP -->
+	
+	<script src="app/config/app.js"></script>
+	<script src="app/config/config.js"></script>
+	
+	<!-- CONTROLLERS -->
+	
+	<script src="app/controllers/mainControllers.js"></script>
+	<script src="app/controllers/userControllers.js"></script>
+	<script src="app/controllers/adminControllers.js"></script>
+	<script src="app/controllers/fruitControllers.js"></script>
+	<script src="app/controllers/herbControllers.js"></script>
+
+	
+	<!-- SERVICES -->
+	
+	<script src="app/services/userServices.js"></script>
+	<script src="app/services/adminServices.js"></script>
+	<script src="app/services/fruitServices.js"></script>
+	<script src="app/services/herbServices.js"></script>
+
+
+</body>
+</html>

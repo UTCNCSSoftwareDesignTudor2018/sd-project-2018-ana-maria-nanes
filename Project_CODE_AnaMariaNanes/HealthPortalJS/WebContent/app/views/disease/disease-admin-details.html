@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+
+<style>
+.navbar-brand {
+	color: black;
+	bold: true;
+}
+
+body {
+	background-image: url("images/diseases_faded.jpg");
+}
+
+.message {
+	color: black;
+	margin-top: 4px;
+	margin-left: 200px;
+	font-size: 100%;
+}
+
+.data {
+	margin-left: 10px;
+	margin-top: 2px;
+}
+</style>
+
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+	rel="stylesheet">
+
+</head>
+<body>
+
+	<div class="navbar navbar-fixed-top">
+		<div class="container">
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/fruits/admin"><b>FRUITS</b> </a>
+			</div>
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/herbs/admin"><b>HERBS<b></a>
+			</div>
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/vegetables/admin"><b>VEGETABLES<b></a>
+			</div>
+
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/hospitals/admin"><b>HOSPITALS<b></a>
+			</div>
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/diseases/admin"><b>DISEASES<b></a>
+			</div>
+
+		</div>
+	</div>
+
+
+	<div class="message">{{message}}</div>
+
+	<div>
+		<h2>Disease Details</h2>
+		<br>
+		<br>
+
+		<div class="data">
+			<p>
+				<label>Disease name: </label> {{disease.diseaseName}}
+			</p>
+			<p>
+				<label>Causes : </label> {{disease.cause}}
+			</p>
+			<p>
+				<label>Sympthoms : </label> {{disease.sympthoms}}
+			</p>
+			<p>
+				<label>Risks : </label> {{disease.risks}}
+			</p>
+			<p>
+				<label>Wikipedia Link : </label> {{disease.wikiLink}}
+			</p>
+
+		<div class="container">
+			<a class="btn btn-primary" href="#/disease/admin/update/{{disease.diseaseId}}"> Modify disease information</a> 
+			<a class="btn btn-primary" href="#/diseases/admin" ng-click="DeleteData()"> Delete Disease</a>
+		</div>
+
+	</div>
+
+
+</body>
+</html>

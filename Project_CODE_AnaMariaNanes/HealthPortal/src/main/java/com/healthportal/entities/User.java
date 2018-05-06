@@ -1,5 +1,6 @@
 package com.healthportal.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -28,19 +29,24 @@ public class User implements java.io.Serializable {
     private String role;
 
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<UserDisease> userDiseases;
 
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<UserHospital> userHospitals;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "user")
     private ShoppingCart shoppingCart;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "user")
     private WishList wishList;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "user")
     private RecommendedList recommendedList;
 

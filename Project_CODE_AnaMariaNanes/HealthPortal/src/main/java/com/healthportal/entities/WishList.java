@@ -1,5 +1,6 @@
 package com.healthportal.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -19,10 +20,12 @@ public class WishList {
     private Integer wishListId;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     @OneToMany(mappedBy = "wishList", cascade = CascadeType.REMOVE)
     private List<WishProduct> wishProducts;
 

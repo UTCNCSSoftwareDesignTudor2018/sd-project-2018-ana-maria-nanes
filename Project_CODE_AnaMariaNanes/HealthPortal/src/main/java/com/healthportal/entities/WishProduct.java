@@ -1,5 +1,6 @@
 package com.healthportal.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -19,11 +20,13 @@ public class WishProduct {
     private Integer wishProdId;
 
     @ManyToOne
+    @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "wishListId")
     private WishList wishList;
 
     @ManyToOne
+    @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "productId")
     private Product product;

@@ -1,5 +1,8 @@
 package com.healthportal.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ public class Hospital implements java.io.Serializable{
     private String website;
     private String phoneNumber;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "hospital", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<UserHospital> userHospitals;
 

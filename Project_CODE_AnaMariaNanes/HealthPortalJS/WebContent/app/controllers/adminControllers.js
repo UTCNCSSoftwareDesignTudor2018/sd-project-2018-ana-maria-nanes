@@ -21,7 +21,34 @@
 				$scope.admin = data;
 			}).error(function(data, status, header, config) {
 				alert(status);
-			});				
+			});		
+			
+		    $scope.UpdateData = function () {	 
+		          
+		    	var data = $scope.admin;
+		        
+		            var _config = {
+		                headers : {
+		                    'Content-Type': 'application/json;charset=utf-8;'
+		                }
+		            }
+		            
+		           AdminFactory.updateAdmin(id,data,_config)
+		           .success(function(){
+		        	   $scope.feedbackMessage ="The admin account info was successfully updated.";
+		           })
+		           .error(function(){
+		        	   $scope.feedbackMessage ="An error occured while updating the admin account info.";
+		           })
+		        };
+		        
+		     $scope.DeleteData = function(){
+					  AdminFactory.deleteAdminById($scope.admin.userId);  
+					  $window.alert("The account has been deleted.");	
+					  
+					};	
+			
+			
 		} ]);
 	
 	

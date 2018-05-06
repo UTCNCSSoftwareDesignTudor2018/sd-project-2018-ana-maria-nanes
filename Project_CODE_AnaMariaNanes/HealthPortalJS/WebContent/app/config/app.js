@@ -6,6 +6,9 @@
 			  'userControllers', 'userServices',
 			  'fruitControllers', 'fruitServices',
 			  'herbControllers', 'herbServices',
+			  'vegetableControllers', 'vegetableServices',
+			  'hospitalControllers', 'hospitalServices',
+			  'diseaseControllers', 'diseaseServices'
 		     ])
     
 })();

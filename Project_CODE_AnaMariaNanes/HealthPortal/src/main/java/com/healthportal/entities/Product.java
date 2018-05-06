@@ -1,5 +1,6 @@
 package com.healthportal.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -28,14 +29,17 @@ public class Product {
     private String readMoreLink;
 
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<CartProduct> cartProducts;
 
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<WishProduct> wishProducts;
 
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<RecommendedProduct> recommendedProducts;
 

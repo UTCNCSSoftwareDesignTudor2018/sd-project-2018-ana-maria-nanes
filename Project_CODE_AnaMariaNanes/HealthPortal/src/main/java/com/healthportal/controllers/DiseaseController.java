@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/health-portal/disease")
 public class DiseaseController {
 
@@ -33,5 +34,10 @@ public class DiseaseController {
     @RequestMapping(value= "/added", method = RequestMethod.POST)
     public Disease addDisease(@RequestBody Disease disease) {
         return diseaseService.addDisease(disease);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public Disease updateProduct(@PathVariable("id") int id, @RequestBody Disease disease) {
+        return diseaseService.updateDisease(id,disease);
     }
 }

@@ -1,5 +1,6 @@
 package com.healthportal.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -23,10 +24,12 @@ public class ShoppingCart {
     private float totalCost = 0;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.REMOVE)
     private List<CartProduct> cartProducts;
 

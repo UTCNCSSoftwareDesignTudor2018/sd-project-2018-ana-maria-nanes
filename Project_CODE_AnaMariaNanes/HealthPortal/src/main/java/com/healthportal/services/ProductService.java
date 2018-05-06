@@ -72,6 +72,26 @@ public class ProductService {
         return toReturn;
     }
 
+     public List<ProductDTO> findAllByType(String type){
+        List<Product> products = productRepository.findAllByType(type);
+        List<ProductDTO> toReturn = new ArrayList<>();
+        for(Product product: products){
+                ProductDTO dto = new ProductDTO.Builder()
+                        .productId(product.getProductId())
+                        .productName(product.getProductName())
+                        .type(product.getType())
+                        .benefits(product.getBenefits())
+                        .distributor(product.getDistributor())
+                        .price(product.getPrice())
+                        .stock(product.getStock())
+                        .readMoreLink(product.getReadMoreLink())
+                        .diseaseList(product.getDiseaseList())
+                        .create();
+                toReturn.add(dto);
+        }
+        return toReturn;
+    }
+
     public void deleteProductById(int id){
         Product product = productRepository.findByProductId(id);
         if (product == null) {

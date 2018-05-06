@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+
+<style>
+body {
+	background-image: url("images/health.jpg");
+}
+
+.message {
+	color: black;
+	margin-top: 130px;
+	margin-left: 460px;
+	font-size: 350%;
+}
+
+.form{
+	margin-left: 440px;
+}
+
+.button{
+    margin-left: 500px;
+}
+
+.buttonBack{
+    margin-left: 530px;
+}
+
+
+</style>
+
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+	rel="stylesheet">
+
+</head>
+<body>
+
+	<h2 class="message">{{message}}</h2>
+	<br>
+
+	<form class = "form">
+		<p>
+			Name: <input type="text" ng-model="name" required />
+		</p>
+		<p>
+			Username: <input type="text" ng-model="username" required />
+		</p>
+		<p>
+			Password: <input type="password" ng-model="password" required />
+		</p>
+		<p>
+			Address: <input type="text" ng-model="address" required />
+		</p>
+		<p>
+			Age: <input type="text" ng-model="age" required />
+		</p>
+		<p>
+			Gender: <input type="text" ng-model="gender" required />
+		</p>
+		<p>
+			Role: <input type="text" ng-model="role" required />
+		</p>
+
+	</form>
+
+	<br>
+	<div class="button">
+		<a class="btn btn-success" ng-click="SendData()">Create account</a>
+	</div>
+	
+	<br>
+	<br>
+	<div class="buttonBack">
+		<a class="btn btn-success" href='http://localhost:8086/health-projectJS/#/'>BACK</a>
+	</div>
+
+	<br>
+
+
+</body>
+</html>

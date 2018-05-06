@@ -1,6 +1,6 @@
 package com.healthportal.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,6 +26,7 @@ public class Disease implements Serializable{
     private String wikiLink;
 
     @OneToMany(mappedBy = "disease", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private List<UserDisease>  userDiseases;
 
     public Disease()

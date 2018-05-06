@@ -1,10 +1,7 @@
 package com.healthportal.controllers;
-
-import com.healthportal.dto.DiseaseDTO;
+;
 import com.healthportal.dto.ProductDTO;
-import com.healthportal.dto.UserDTO;
 import com.healthportal.entities.Product;
-import com.healthportal.entities.User;
 import com.healthportal.services.ProductService;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +9,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")                      //in order to allow to post on other localhost port
 @RequestMapping("/health-portal/product")
 public class ProductController {
 
@@ -21,6 +19,21 @@ public class ProductController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<ProductDTO> getAllProducts() {
         return productService.findAll();
+    }
+
+    @RequestMapping(value = "/fruit/all", method = RequestMethod.GET)
+    public List<ProductDTO> getAllFruits() {
+        return productService.findAllByType("fruit");
+    }
+
+    @RequestMapping(value = "/herb/all", method = RequestMethod.GET)
+    public List<ProductDTO> getAllHerbs() {
+        return productService.findAllByType("herb");
+    }
+
+    @RequestMapping(value = "/vegetable/all", method = RequestMethod.GET)
+    public List<ProductDTO> getAllVegetables() {
+        return productService.findAllByType("vegetable");
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

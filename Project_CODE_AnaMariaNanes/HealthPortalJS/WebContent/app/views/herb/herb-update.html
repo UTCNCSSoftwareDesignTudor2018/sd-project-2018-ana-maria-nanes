@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+
+<style>
+.navbar-brand {
+	color: black;
+	bold: true;
+}
+
+body {
+	background-image: url("images/herbs_faded.png");
+}
+
+.message {
+	color: black;
+	margin-top: 4px;
+	margin-left: 200px;
+	font-size: 100%;
+}
+</style>
+
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+	rel="stylesheet">
+
+</head>
+<body>
+
+	<div class="navbar navbar-fixed-top">
+		<div class="container">
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/fruits/admin"><b>FRUITS</b> </a>
+			</div>
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/herbs/admin"><b>HERBS<b></a>
+			</div>
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/vegetables/admin"><b>VEGETABLES<b></a>
+			</div>
+
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/hospitals/admin"><b>HOSPITALS<b></a>
+			</div>
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/diseases/admin"><b>DISEASES<b></a>
+			</div>
+
+		</div>
+	</div>
+
+
+	<div class="message">{{message}}</div>
+
+	<br>
+	<br>
+	<br>
+	<form>
+		<p>
+			Herb name: <input type="text" ng-model="herb.productName" required />
+		</p>
+		<p>
+			Benefits: <input type="text" ng-model="herb.benefits" required />
+		</p>
+		<p>
+			Distributor: <input type="text" ng-model="herb.distributor" required />
+		</p>
+		<p>
+			Price: <input type="text" ng-model="herb.price" required />
+		</p>
+		<p>
+			Stock: <input type="text" ng-model="herb.stock" required />
+		</p>
+		<p>
+			Diseases recommended for: <input type="text" ng-model="herb.diseaseList" required />
+		</p>
+		<p>
+			Additional information link: <input type="text" ng-model="herb.readMoreLink" required />
+		</p>
+
+	</form>
+    
+    <br>
+		<div class="container">     
+        <a class="btn btn-success"  ng-click="UpdateData()" >Update Herb</a>
+	</div>	
+
+	<br>
+
+	<div class="container">
+		<p>{{feedbackMessage}}</p>
+	</div>
+
+
+
+</body>
+</html>

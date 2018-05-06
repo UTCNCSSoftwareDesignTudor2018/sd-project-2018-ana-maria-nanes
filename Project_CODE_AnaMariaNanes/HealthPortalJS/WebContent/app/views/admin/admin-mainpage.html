@@ -4,53 +4,108 @@
 <meta charset="ISO-8859-1">
 
 <style>
-
 .navbar-brand {
-   color : black;
-   bold : true;
+	color: black;
+	bold: true;
+}
+
+.greetings {
+	color: black;
+	margin-top: 70px;
+	margin-left: 200px;
+	font-size: 130%;
+}
+
+.adminInfo {
+	color: black;
+	margin-top: 40px;
+	margin-left: 200px;
+}
+
+.buttons {
+	margin-left: 200px;
+}
+
+.message{
+	margin-left: 200px;
 }
 
 body {
-        background-image: url("images/health_faded.jpg");
-} 
-
+	background-image: url("images/health_faded.jpg");
+}
 </style>
 
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
 	rel="stylesheet">
-	
+
 </head>
 
 <body>
-			
-		<div class="navbar navbar-fixed-top">
-		  <div class="container">
-			
-			 <div class="navbar-header">
+
+	<div class="navbar navbar-fixed-top">
+		<div class="container">
+
+			<div class="navbar-header">
 				<a class="navbar-brand" href="#/fruits/admin"><b>FRUITS</b> </a>
-			</div>  
-			
-			 <div class="navbar-header">
+			</div>
+
+			<div class="navbar-header">
 				<a class="navbar-brand" href="#/herbs/admin"><b>HERBS<b></a>
-			</div>   
-			
-			 <div class="navbar-header">
+			</div>
+
+			<div class="navbar-header">
 				<a class="navbar-brand" href="#/vegetables/admin"><b>VEGETABLES<b></a>
-			</div>   
-			 
-			 
-			 <div class="navbar-header">
+			</div>
+
+
+			<div class="navbar-header">
 				<a class="navbar-brand" href="#/hospitals/admin"><b>HOSPITALS<b></a>
-			</div>  	
-			
-			 <div class="navbar-header">
+			</div>
+
+			<div class="navbar-header">
 				<a class="navbar-brand" href="#/diseases/admin"><b>DISEASES<b></a>
-			</div>  
-					
-	    </div>
-      </div>
-      
-      <div>Hello admin {{admin.name}}!</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="greetings">Hello admin {{admin.name}}!</div>
+
+	<form class="adminInfo">
+		<p>
+			Name: <input type="text" ng-model="admin.name" required />
+		</p>
+		<p>
+			Username: <input type="text" ng-model="admin.username" required />
+		</p>
+		<p>
+			Address: <input type="text" ng-model="admin.address" required />
+		</p>
+		<p>
+			Age: <input type="text" ng-model="admin.age" required />
+		</p>
+		<p>
+			Gender: <input type="text" ng-model="admin.gender" required />
+		</p>
+		<p>
+			Password: <input type="password" ng-model="admin.password" required />
+		</p>
+
+	</form>
+
+	<br>
+	<div class="buttons">
+		<a class="btn btn-success" ng-click="UpdateData()">Update Account
+			Information</a> <a class="btn btn-success"
+			href="http://localhost:8086/health-projectJS/#/"
+			ng-click="DeleteData()">Delete account</a>
+	</div>
+	<br>
+
+	<div class="message">
+		<p>{{feedbackMessage}}</p>
+	</div>
+
 </body>
 </html>

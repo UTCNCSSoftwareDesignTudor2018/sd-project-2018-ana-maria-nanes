@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/health-portal/user")
 public class UserController {
 

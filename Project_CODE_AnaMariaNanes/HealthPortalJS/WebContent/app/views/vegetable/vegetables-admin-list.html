@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+
+<style>
+.navbar-brand {
+	color: black;
+	bold: true;
+}
+
+body {
+	background-image: url("images/vegetables_faded.jpg");
+}
+
+.title {
+	color: black;
+	margin-left: 400px;
+	margin-top: 4px;
+	font-size: 250%;
+}
+
+.message {
+	color: black;
+	margin-left: 500px;
+	font-size: 100%;
+}
+</style>
+
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+	rel="stylesheet">
+
+</head>
+<body>
+
+	<div class="navbar navbar-fixed-top">
+		<div class="container">
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/fruits/admin"><b>FRUITS</b> </a>
+			</div>
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/herbs/admin"><b>HERBS<b></a>
+			</div>
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/vegetables/admin"><b>VEGETABLES<b></a>
+			</div>
+
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/hospitals/admin"><b>HOSPITALS<b></a>
+			</div>
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/diseases/admin"><b>DISEASES<b></a>
+			</div>
+
+		</div>
+	</div>
+
+
+	<div class="title">THE LIST OF VEGETABLES</div>
+	<div class="message">{{message}}</div>
+
+	<div ng-if="vegetables.length > 0">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Vegetable</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+
+
+				<tr ng-repeat="vegetable in vegetables">
+					<td>{{vegetable.productName}}</td>
+				    <td><a class="btn btn-success" href="#/vegetable/admin/{{vegetable.productId}}">Vegetable Details</a></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+	
+	<div class="container">
+		<a class="btn btn-success" href="#/vegetable/form">Add new vegetable</a>
+	</div>
+
+
+</body>
+</html>

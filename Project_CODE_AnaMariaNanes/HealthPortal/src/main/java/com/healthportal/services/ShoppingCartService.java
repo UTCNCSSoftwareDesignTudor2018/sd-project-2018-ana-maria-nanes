@@ -1,7 +1,9 @@
 package com.healthportal.services;
 
+import com.healthportal.dto.ProductDTO;
 import com.healthportal.dto.ShoppingCartDTO;
 import com.healthportal.dto.UserDTO;
+import com.healthportal.entities.Product;
 import com.healthportal.entities.ShoppingCart;
 import com.healthportal.entities.User;
 import com.healthportal.errorhandler.ResourceNotFoundException;
@@ -10,6 +12,8 @@ import com.healthportal.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ShoppingCartService {
@@ -36,7 +40,8 @@ public class ShoppingCartService {
         return dto;
     }
 
-    public ShoppingCartDTO findByUser(User user){
+    public ShoppingCartDTO findByUser(int userId){
+        User user = userRepository.findByUserId(userId);
         ShoppingCart shoppingCart = shoppingCartRepository.getByUser(user);
 
         if(shoppingCart == null){
@@ -62,6 +67,20 @@ public class ShoppingCartService {
                  .create();
 
         return dto;
+    }
+
+     public List<ShoppingCartDTO> findAll(){
+        List<ShoppingCart> carts = shoppingCartRepository.findAll();
+        List<ShoppingCartDTO> toReturn = new ArrayList<>();
+        for(ShoppingCart shoppingCart: carts){
+            ShoppingCartDTO dto = new ShoppingCartDTO.Builder()
+                    .cartId(shoppingCart.getCartId())
+                    .productNo(shoppingCart.getProductNo())
+                    .totalCost(shoppingCart.getTotalCost())     //add userDto ???
+                    .create();
+            toReturn.add(dto);
+        }
+        return toReturn;
     }
 
     public ShoppingCart addShoppingCart(int userId,ShoppingCart shoppingCart){

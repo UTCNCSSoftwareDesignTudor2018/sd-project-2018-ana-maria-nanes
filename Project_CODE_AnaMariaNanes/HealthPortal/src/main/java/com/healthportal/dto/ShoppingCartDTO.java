@@ -5,17 +5,15 @@ public class ShoppingCartDTO {
     private Integer cartId;
     private int productNo;
     private float totalCost;
-    private UserDTO userDto;
 
     public ShoppingCartDTO(){
 
     }
 
-    public ShoppingCartDTO(Integer cartId, int productNo, float totalCost,UserDTO userDto) {
+    public ShoppingCartDTO(Integer cartId, int productNo, float totalCost) {
         this.cartId = cartId;
         this.productNo = productNo;
         this.totalCost = totalCost;
-        this.userDto = userDto;
     }
 
     public Integer getCartId() {
@@ -40,14 +38,6 @@ public class ShoppingCartDTO {
 
     public void setTotalCost(float totalCost) {
         this.totalCost = totalCost;
-    }
-
-    public UserDTO getUserDto() {
-        return userDto;
-    }
-
-    public void setUserDto(UserDTO userDto) {
-        this.userDto = userDto;
     }
 
     public static class Builder{
@@ -77,7 +67,7 @@ public class ShoppingCartDTO {
         }
 
         public ShoppingCartDTO create(){
-            return new ShoppingCartDTO(nestedcartId,nestedproductNo,nestedtotalCost,nestedUserDto);
+            return new ShoppingCartDTO(nestedcartId,nestedproductNo,nestedtotalCost);
         }
 
     }

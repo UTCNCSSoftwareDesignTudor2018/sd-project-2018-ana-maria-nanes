@@ -13,49 +13,42 @@
 	margin-left: 600px;
 }
 
-.greetings {
+body {
+	background-image: url("images/vegetables_faded.jpg");
+}
+
+.welcomeMessage {
 	color: black;
-	margin-top: 70px;
-	margin-left: 200px;
-	font-size: 130%;
+	margin-left: 520px;
+	font-size: 100%;
 }
 
-.userInfo {
+.title {
 	color: black;
-	margin-top: 40px;
-	margin-left: 200px;
-}
-
-.buttons {
-	margin-left: 200px;
-}
-
-.buttonBack {
-	margin-left: 200px;
+	margin-left: 400px;
+	margin-top: 4px;
+	font-size: 250%;
 }
 
 .message {
-	margin-left: 200px;
-}
-
-body {
-	background-image: url("images/health_faded.jpg");
+	color: black;
+	margin-left: 500px;
+	font-size: 100%;
 }
 </style>
 
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
 	rel="stylesheet">
+
 </head>
-
-
 <body>
+
 	<div class="navbar navbar-fixed-top">
 		<div class="container">
 
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#/user/{{user.userId}}/fruits"><b>FRUITS</b>
-				</a>
+				<a class="navbar-brand" href="#/user/{{user.userId}}/fruits"><b>FRUITS</b></a>
 			</div>
 
 			<div class="navbar-header">
@@ -74,7 +67,7 @@ body {
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#/user/{{user.userId}}/diseases"><b>DISEASES<b></a>
 			</div>
-
+			
 			<div class="navbar-header1">
 				<a class="navbar-brand" href="#/user/{{user.userId}}/shoppingCart"><b>SHOPPING CART</b></a>
 			</div>
@@ -90,48 +83,28 @@ body {
 		</div>
 	</div>
 
-	<div class="greetings">Hello user {{user.name}}!</div>
+    <div class="welcomeMessage">Welcome {{user.name}} !</div>
+	<div class="title">THE LIST OF VEGETABLES</div>
+	<div class="message">{{message}}</div>
 
-	<form class="userInfo">
-		<p>
-			Name: <input type="text" ng-model="user.name" required />
-		</p>
-		<p>
-			Username: <input type="text" ng-model="user.username" required />
-		</p>
-		<p>
-			Address: <input type="text" ng-model="user.address" required />
-		</p>
-		<p>
-			Age: <input type="text" ng-model="user.age" required />
-		</p>
-		<p>
-			Gender: <input type="text" ng-model="user.gender" required />
-		</p>
-		<p>
-			Password: <input type="password" ng-model="user.password" required />
-		</p>
+	<div ng-if="vegetables.length > 0">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Vegetable</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
 
-	</form>
 
-	<br>
-	<div class="buttons">
-		<a class="btn btn-success" ng-click="UpdateData()">Update Account
-			Information</a> <a class="btn btn-success"
-			href="http://localhost:8086/health-projectJS/#/"
-			ng-click="DeleteData()">Delete account</a>
-	</div>
-	<br>
+				<tr ng-repeat="vegetable in vegetables">
+					<td>{{vegetable.productName}}</td>
+					<td><a class="btn btn-success" ng-href="#/vegetable/{{vegetable.productId}}/user/{{user.userId}}/">Details</a></td>
+				</tr>
+			</tbody>
+		</table>
 
-	<div class="message">
-		<p>{{feedbackMessage}}</p>
-	</div>
-
-	<br>
-	<br>
-	<div class="buttonBack">
-		<a class="btn btn-success"
-			href="http://localhost:8086/health-projectJS/#/">BACK</a>
 	</div>
 
 </body>

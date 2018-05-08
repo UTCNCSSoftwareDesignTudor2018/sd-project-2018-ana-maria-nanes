@@ -8,7 +8,9 @@
 			  'herbControllers', 'herbServices',
 			  'vegetableControllers', 'vegetableServices',
 			  'hospitalControllers', 'hospitalServices',
-			  'diseaseControllers', 'diseaseServices'
+			  'diseaseControllers', 'diseaseServices',
+			  'shoppingCartServices',
+			  'cartProductServices',
 		     ])
     
 })();

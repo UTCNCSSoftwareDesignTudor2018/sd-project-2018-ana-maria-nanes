@@ -13,49 +13,35 @@
 	margin-left: 600px;
 }
 
-.greetings {
-	color: black;
-	margin-top: 70px;
-	margin-left: 200px;
-	font-size: 130%;
-}
-
-.userInfo {
-	color: black;
-	margin-top: 40px;
-	margin-left: 200px;
-}
-
-.buttons {
-	margin-left: 200px;
-}
-
-.buttonBack {
-	margin-left: 200px;
+body {
+	background-image: url("images/herbs_faded.png");
 }
 
 .message {
+	color: black;
+	margin-top: 4px;
 	margin-left: 200px;
+	font-size: 100%;
 }
 
-body {
-	background-image: url("images/health_faded.jpg");
+.data {
+	margin-left: 10px;
+	margin-top: 2px;
 }
 </style>
 
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
 	rel="stylesheet">
+
 </head>
-
-
 <body>
+
 	<div class="navbar navbar-fixed-top">
 		<div class="container">
 
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#/user/{{user.userId}}/fruits"><b>FRUITS</b>
-				</a>
+				<a class="navbar-brand" href="#/user/{{user.userId}}/fruits"><b>FRUITS</b></a>
 			</div>
 
 			<div class="navbar-header">
@@ -74,7 +60,7 @@ body {
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#/user/{{user.userId}}/diseases"><b>DISEASES<b></a>
 			</div>
-
+			
 			<div class="navbar-header1">
 				<a class="navbar-brand" href="#/user/{{user.userId}}/shoppingCart"><b>SHOPPING CART</b></a>
 			</div>
@@ -90,49 +76,42 @@ body {
 		</div>
 	</div>
 
-	<div class="greetings">Hello user {{user.name}}!</div>
 
-	<form class="userInfo">
-		<p>
-			Name: <input type="text" ng-model="user.name" required />
-		</p>
-		<p>
-			Username: <input type="text" ng-model="user.username" required />
-		</p>
-		<p>
-			Address: <input type="text" ng-model="user.address" required />
-		</p>
-		<p>
-			Age: <input type="text" ng-model="user.age" required />
-		</p>
-		<p>
-			Gender: <input type="text" ng-model="user.gender" required />
-		</p>
-		<p>
-			Password: <input type="password" ng-model="user.password" required />
-		</p>
+	<div class="message">{{message}}</div>
 
-	</form>
+	<div>
+		<h2>Herb Details</h2>
+		<br>
+		<br>
 
-	<br>
-	<div class="buttons">
-		<a class="btn btn-success" ng-click="UpdateData()">Update Account
-			Information</a> <a class="btn btn-success"
-			href="http://localhost:8086/health-projectJS/#/"
-			ng-click="DeleteData()">Delete account</a>
+		<div class="data">
+			<p>
+				<label>Herb name: </label> {{herb.productName}}
+			</p>
+			<p>
+				<label>Benefits: </label> {{herb.benefits}}
+			</p>
+			<p>
+				<label>Distributor: </label> {{herb.distributor}}
+			</p>
+			<p>
+				<label>Price: </label> {{herb.price}}
+			</p>
+			<p>
+				<label>Stock: </label> {{herb.stock}}
+			</p>
+			<p>
+				<label>Diseases recommended for: </label> {{herb.diseaseList}}
+			</p>
+			<p>
+				<label>Additional information link: </label> {{herb.readMoreLink}}
+			</p>
+		</div>
+		
+		<a class="btn btn-success" ng-click="AddInShoppingCart()">Add to shopping cart</a>
+
 	</div>
-	<br>
 
-	<div class="message">
-		<p>{{feedbackMessage}}</p>
-	</div>
-
-	<br>
-	<br>
-	<div class="buttonBack">
-		<a class="btn btn-success"
-			href="http://localhost:8086/health-projectJS/#/">BACK</a>
-	</div>
 
 </body>
 </html>

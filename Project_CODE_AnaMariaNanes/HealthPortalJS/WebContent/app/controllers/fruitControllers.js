@@ -19,8 +19,11 @@
 			templateUrl : 'app/views/fruit/fruit-update.html',
 			controller : 'FruitUpdateController',
 			controllerAs : "fruitUpdateCtrl"
+		}).when('/fruit/:fruitId/user/:id', {
+			templateUrl : 'app/views/fruit/fruit-user-details.html',
+			controller : 'FruitUserDetailsController',
+			controllerAs : "fruitUserDetailsCtrl"
 		})
-
 	});
 
 	fruitsModule.controller('FruitAdminListController', [ '$scope', 
@@ -148,6 +151,46 @@
 		           })
 		        };
 		    }]);
-
-
+		
+		
+		 fruitsModule.controller('FruitUserDetailsController', [ '$scope', '$window', '$routeParams', 'FruitFactory', 'UserFactory', 'CartProductFactory',
+			 function($scope, $window, $routeParams, FruitFactory, UserFactory, CartProductFactory) {
+					
+			        $scope.message = "Fruit is nature's candy."; 
+			 
+			        var fruitId = $routeParams.fruitId; 				//fruitId
+					var promise = FruitFactory.findFruitById(fruitId);     
+					$scope.fruit = null;									
+					promise.success(function(data) {
+						$scope.fruit = data;
+					}).error(function(data, status, header, config) {
+						alert(status);
+					});
+					
+					var userId= $routeParams.id;                          //userId
+					var promise = UserFactory.findById(userId);               
+					$scope.user = null;									 
+					promise.success(function(data) {
+						$scope.user = data;
+					}).error(function(data, status, header, config) {
+						alert(status);
+					});	
+					
+					$scope.AddInShoppingCart = function () {	      //add fruit
+					    var data = null;
+						var _config = {
+				                headers : {
+				                    'Content-Type': 'application/json;charset=utf-8;'
+				                }
+				            }
+				            						
+				     CartProductFactory.addProductToCart(fruitId,userId,data,_config)
+				        .success(function(){
+				        	$window.alert("Fruit has been added to the shopping cart.");
+				         }).error(function(){
+				        	$window.alert("An error occured."); 	
+				         })		                   
+				        };
+						
+				} ]);
 })();

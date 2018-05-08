@@ -19,6 +19,10 @@
 			templateUrl : 'app/views/hospital/hospital-update.html',
 			controller : 'HospitalUpdateController',
 			controllerAs : "hospitalUpdateCtrl"
+		}).when('/hospital/:hospitalId/user/:id', {
+			templateUrl : 'app/views/hospital/hospital-user-details.html',
+			controller : 'HospitalUserDetailsController',
+			controllerAs : "hospitalUserDetailsCtrl"
 		})
 	   
 	});
@@ -135,5 +139,29 @@
 			           })
 			        };
 			    }]);
+		 
+		  hospitalsModule.controller('HospitalUserDetailsController', [ '$scope', '$window', '$routeParams', 'HospitalFactory', 'UserFactory',
+				 function($scope, $window, $routeParams, HospitalFactory, UserFactory) {
+						
+				        $scope.message = "Find the best hospital for you.";
+				  
+				        var hospitalId = $routeParams.hospitalId;
+						var promise = HospitalFactory.findHospitalById(hospitalId);     
+						$scope.hospital = null;									
+						promise.success(function(data) {
+							$scope.hospital = data;
+						}).error(function(data, status, header, config) {
+							alert(status);
+						});
+						
+						var id = $routeParams.id;
+						var promise = UserFactory.findById(id);               
+						$scope.user = null;									 
+						promise.success(function(data) {
+							$scope.user = data;
+						}).error(function(data, status, header, config) {
+							alert(status);
+						});	
+					} ]);
 	
 })();

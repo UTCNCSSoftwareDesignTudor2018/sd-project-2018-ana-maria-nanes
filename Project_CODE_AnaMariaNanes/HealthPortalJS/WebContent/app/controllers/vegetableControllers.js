@@ -19,8 +19,11 @@
 			templateUrl : 'app/views/vegetable/vegetable-update.html',
 			controller : 'VegetableUpdateController',
 			controllerAs : "vegetableUpdateCtrl"
-		})
-	   
+		}).when('/vegetable/:vegetableId/user/:id', {
+			templateUrl : 'app/views/vegetable/vegetable-user-details.html',
+			controller : 'VegetableUserDetailsController',
+			controllerAs : "vegetableDetailsCtrl"
+		})   
 	});
 	
 	vegetablesModule.controller('VegetableAdminListController', [ '$scope','$routeParams','$window', 'VegetableFactory',
@@ -145,5 +148,44 @@
 			           })
 			        };
 			    }]);
+		 
+		 vegetablesModule.controller('VegetableUserDetailsController', [ '$scope', '$window', '$routeParams', 'VegetableFactory', 'UserFactory','CartProductFactory',
+			 function($scope, $window, $routeParams, VegetableFactory, UserFactory, CartProductFactory) {
+					
+			        var vegetableId = $routeParams.vegetableId;
+					var promise = VegetableFactory.findVegetableById(vegetableId);     
+					$scope.vegetable = null;									
+					promise.success(function(data) {
+						$scope.vegetable = data;
+					}).error(function(data, status, header, config) {
+						alert(status);
+					});
+						
+					var userId = $routeParams.id;
+					var promise = UserFactory.findById(userId);               
+					$scope.user = null;									 
+					promise.success(function(data) {
+						$scope.user = data;
+					}).error(function(data, status, header, config) {
+						alert(status);
+					});	
+					
+					$scope.AddInShoppingCart = function () {	      //add vegetable
+					    var data = null;
+						var _config = {
+				                headers : {
+				                    'Content-Type': 'application/json;charset=utf-8;'
+				                }
+				            }
+				            						
+				     CartProductFactory.addProductToCart(vegetableId,userId,data,_config)
+				        .success(function(){
+				        	$window.alert("Vegetable has been added to the shopping cart.");
+				         }).error(function(){
+				        	$window.alert("An error occured."); 	
+				         })		                   
+				        };
+				} ]);
+	  
 	
 })();

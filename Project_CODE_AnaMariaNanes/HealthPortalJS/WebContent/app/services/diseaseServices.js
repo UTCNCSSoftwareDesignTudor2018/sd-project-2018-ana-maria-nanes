@@ -22,7 +22,7 @@
 		
 		 return {
 				       findAll : function() {                 
-					      return privateAllDiseases()
+					      return privateAllDiseases();
 				          },
 				          
 				       findDiseaseById : function(diseaseId) {           

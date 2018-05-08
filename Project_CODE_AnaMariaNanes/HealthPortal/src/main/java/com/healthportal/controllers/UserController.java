@@ -56,7 +56,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/{id}/shoppingCart", method = RequestMethod.GET)
-	public ShoppingCartDTO getUserShoppingCart (@PathVariable("id") int id) {
+	public List<ProductDTO> getUserShoppingCart (@PathVariable("id") int id) {
 		return userService.findUserShoppingCart(id);
 	}
 

@@ -19,6 +19,10 @@
 			templateUrl : 'app/views/disease/disease-update.html',
 			controller : 'DiseaseUpdateController',
 			controllerAs : "diseaseUpdateCtrl"
+		}).when('/disease/:diseaseId/user/:id', {
+			templateUrl : 'app/views/disease/disease-user-details.html',
+			controller : 'DiseaseUserDetailsController',
+			controllerAs : "diseaseUserDetailsCtrl"
 		})
 	   
 	});
@@ -99,8 +103,7 @@
 				$scope.DeleteData = function(){
 					  DiseaseFactory.deleteDiseaseById(diseaseId);  
 					  $window.alert("The disease has been deleted.");			
-					};
-							
+					};					
 			} ]);
 	 
 	 diseasesModule.controller('DiseaseUpdateController', [ '$scope', '$routeParams', 'DiseaseFactory', 
@@ -135,5 +138,29 @@
 		           })
 		        };
 		    }]);
+	 
+	 diseasesModule.controller('DiseaseUserDetailsController', [ '$scope', '$window', '$routeParams', 'DiseaseFactory', 'UserFactory',
+		 function($scope, $window, $routeParams, DiseaseFactory, UserFactory) {
+				
+		        $scope.message = "Any kind of disease is to be treated accordingly.";
+
+		        var diseaseId = $routeParams.diseaseId;
+				var promise = DiseaseFactory.findDiseaseById(diseaseId);     
+				$scope.disease = null;									
+				promise.success(function(data) {
+					$scope.disease = data;
+				}).error(function(data, status, header, config) {
+					alert(status);
+				});
+				
+				var id = $routeParams.id;
+				var promise = UserFactory.findById(id);               
+				$scope.user = null;									 
+				promise.success(function(data) {
+					$scope.user = data;
+				}).error(function(data, status, header, config) {
+					alert(status);
+				});	
+			} ]);
 	
 })();

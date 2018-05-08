@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+
+<style>
+.navbar-brand {
+	color: black;
+	bold: true;
+}
+
+.navbar-header1 {
+	margin-left: 600px;
+}
+
+body {
+	background-image: url("images/diseases_faded.jpg");
+}
+
+.welcomeMessage {
+	color: black;
+	margin-left: 520px;
+	font-size: 100%;
+}
+
+.title {
+	color: black;
+	margin-left: 400px;
+	margin-top: 4px;
+	font-size: 250%;
+}
+
+.message {
+	color: black;
+	margin-left: 500px;
+	font-size: 100%;
+}
+</style>
+
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+	rel="stylesheet">
+
+</head>
+<body>
+
+	<div class="navbar navbar-fixed-top">
+		<div class="container">
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/user/{{user.userId}}/fruits"><b>FRUITS</b>
+				</a>
+			</div>
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/user/{{user.userId}}/herbs"><b>HERBS<b></a>
+			</div>
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/user/{{user.userId}}/vegetables"><b>VEGETABLES<b></a>
+			</div>
+
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/user/{{user.userId}}/hospitals"><b>HOSPITALS<b></a>
+			</div>
+
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/user/{{user.userId}}/diseases"><b>DISEASES<b></a>
+			</div>
+
+			<div class="navbar-header1">
+				<a class="navbar-brand" href="#/user/{{user.userId}}/shoppingCart"><b>SHOPPING
+						CART</b></a>
+			</div>
+
+			<div class="navbar-header1">
+				<a class="navbar-brand" href="#/user/{{user.userId}}/wishList"><b>WISH
+						LIST</b></a>
+			</div>
+
+			<div class="navbar-header1">
+				<a class="navbar-brand"
+					href="#/user/{{user.userId}}/recommendationList"><b>RECOMMENDATION
+						LIST</b></a>
+			</div>
+
+		</div>
+	</div>
+
+
+	<div class="welcomeMessage">Welcome {{user.name}} !</div>
+	<div class="title">THE LIST OF DISEASES</div>
+	<div class="message">{{message}}</div>
+
+	<div ng-if="diseases.length > 0">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Disease</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+
+
+				<tr ng-repeat="disease in diseases">
+					<td>{{disease.diseaseName}}</td>
+					<td><a class="btn btn-primary"
+						ng-href="#/disease/{{disease.diseaseId}}/user/{{user.userId}}">Details</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</body>
+</html>

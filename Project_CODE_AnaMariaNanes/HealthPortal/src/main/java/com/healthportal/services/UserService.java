@@ -17,6 +17,9 @@ public class UserService {
 	@Inject
 	private UserRepository userRepository;
 
+	@Inject
+	private ShoppingCartService shoppingCartService;
+
 	public UserDTO findByUserid(int userID) {
 
 		User user = userRepository.findByUserId(userID);
@@ -166,16 +169,30 @@ public class UserService {
 		return toReturn;
 	}
 
-	public ShoppingCartDTO findUserShoppingCart(int id){
+	public List<ProductDTO> findUserShoppingCart(int id){
+         List<ProductDTO> toReturn = new ArrayList<>();
+
          User user = userRepository.findByUserId(id);
          ShoppingCart cart = user.getShoppingCart();
+		 List<CartProduct> cartProducts = cart.getCartProducts();
+		 for(CartProduct cartProduct: cartProducts){
+             Product product = cartProduct.getProduct();
 
-         ShoppingCartDTO dto = new ShoppingCartDTO.Builder()
-                              .cartId(cart.getCartId())
-                              .productNo(cart.getProductNo())
-                              .totalCost(cart.getTotalCost())
-                              .create();
-         return dto;
+             ProductDTO dto = new ProductDTO.Builder()
+                     .productId(product.getProductId())
+                     .productName(product.getProductName())
+                     .type(product.getType())
+                     .benefits(product.getBenefits())
+                     .distributor(product.getDistributor())
+                     .price(product.getPrice())
+                     .stock(product.getStock())
+                     .readMoreLink(product.getReadMoreLink())
+                     .diseaseList(product.getDiseaseList())
+                     .create();
+
+		        toReturn.add(dto);
+         }
+		 return toReturn;
     }
 
     public WishListDTO findUserWishList(int id){

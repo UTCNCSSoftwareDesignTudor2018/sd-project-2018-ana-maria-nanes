@@ -43,12 +43,13 @@
 		    	}
 		       else{
 					
-		    	    $window.alert("The password is not correct.");
+		    	   $window.alert("The password is not correct.");
 					$scope.redirectLink = "http://localhost:8086/health-projectJS/#/";
 			 	}
 				
 				}).error(function(data, status, header, config) {
 					 $window.alert("No account found with the given username.");
+					 
 				});				
 			}
 		} ]);
@@ -56,10 +57,13 @@
 	homeModule.controller('UserAddNewController', [ '$scope','$http', '$window', '$routeParams', '$window', 'UserFactory',
 		function($scope, $http, $window, $routeParams, $window, UserFactory) {
 			
-		    $scope.message = "WELCOME!";		  
+		    $scope.message = "WELCOME!";
+		    var username = "";
 		 
 		    $scope.SendData = function () {	 
-		            var data = {
+		            
+		    	   username = $scope.username;
+		    	   var data = {
 	                
 		                name : $scope.name,
 		                username: $scope.username,
@@ -67,7 +71,8 @@
 		    		    address : $scope.address,			    		 
 		    		    age : $scope.age,
 		    		    gender : $scope.gender,
-		    		    role : $scope.role,	    		    
+		    		    role : $scope.role,	
+		    		    
 		            };
 		        
 		            var _config = {
@@ -99,7 +104,35 @@
 		    		    $scope.gender = "";
 		    		    $scope.role = ""		    		    	
 		            })		                   
-		        };
+		        
+	            //get the user that was created
+		        var promise = UserFactory.findByUsername(username);	
+		        var user = null;
+				promise.success(function(data) {
+					user = data;
+					 //create shoppingCart
+		            var cartVar = {		                
+			                productNo : 0,
+			                totalCost: 0,  		    
+			            };
+			        
+			            var _config = {
+			                headers : {
+			                    'Content-Type': 'application/json;charset=utf-8;'
+			                }
+			            }
+			            
+			            $http.post('http://localhost:8080/health-portal/shoppingCart/added/' + user.userId  , cartVar, _config)
+			            .success(function(){
+			            }).error(function(){
+			            })	
+				}).error(function(){
+	            	
+	            })
+		        
+		    }; // end sendData()
+	                         
+
 		} ]);
 
 })();

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/health-portal/userHospital")
 public class UserHospitalController {
 

@@ -28,7 +28,6 @@ public class ShoppingCartController {
 
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
     public ShoppingCartDTO getCartUser(@PathVariable("userId") int userId) {
-        System.out.println("--------------ana");
         return shoppingCartService.findByUser(userId);
     }
 

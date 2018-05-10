@@ -120,7 +120,7 @@
 					
 			        var id = $routeParams.vegetableId;		
 			        
-			        $scope.message = "Vegetable is nature's candy.";
+			        $scope.message = "Vegetables are the guide to a healthy life.";
 			        
 			        var promise = VegetableFactory.findVegetableById(id);     
 					$scope.vegetable = null;									
@@ -152,7 +152,9 @@
 		 vegetablesModule.controller('VegetableUserDetailsController', [ '$scope', '$window', '$routeParams', 'VegetableFactory', 'UserFactory','CartProductFactory',
 			 function($scope, $window, $routeParams, VegetableFactory, UserFactory, CartProductFactory) {
 					
-			        var vegetableId = $routeParams.vegetableId;
+			        $scope.message = "Vegetables are the guide to a healthy life.";
+
+			        var vegetableId = $routeParams.vegetableId;                           //vegetableId
 					var promise = VegetableFactory.findVegetableById(vegetableId);     
 					$scope.vegetable = null;									
 					promise.success(function(data) {
@@ -161,7 +163,7 @@
 						alert(status);
 					});
 						
-					var userId = $routeParams.id;
+					var userId = $routeParams.id;                    //userId
 					var promise = UserFactory.findById(userId);               
 					$scope.user = null;									 
 					promise.success(function(data) {
@@ -170,20 +172,35 @@
 						alert(status);
 					});	
 					
-					$scope.AddInShoppingCart = function () {	      //add vegetable
-					    var data = null;
+					$scope.AddInShoppingCart = function (stock) {	      //add vegetable
+					    
+						if ($scope.quantity <= stock) {
+						var data = null;
 						var _config = {
 				                headers : {
 				                    'Content-Type': 'application/json;charset=utf-8;'
 				                }
 				            }
+						
+                        var data = {
+				                
+				                quantity : $scope.quantity    		    
+				            };
 				            						
 				     CartProductFactory.addProductToCart(vegetableId,userId,data,_config)
 				        .success(function(){
-				        	$window.alert("Vegetable has been added to the shopping cart.");
+				        	 $window.alert("Vegetable has been added to the shopping cart.");
+				        	 $scope.quantity = "";
 				         }).error(function(){
 				        	$window.alert("An error occured."); 	
-				         })		                   
+				        	$scope.quantity = "";
+				         })	
+				         
+						}else
+							{
+							$window.alert("Not enough pieces in stock.");
+						    $scope.quantity = "";
+							}
 				        };
 				} ]);
 	  

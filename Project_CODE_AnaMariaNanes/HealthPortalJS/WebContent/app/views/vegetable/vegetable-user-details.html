@@ -13,21 +13,29 @@
 	margin-left: 600px;
 }
 
-
 body {
 	background-image: url("images/vegetables_faded.jpg");
 }
 
 .message {
 	color: black;
+	margin-left: 400px;
 	margin-top: 4px;
-	margin-left: 200px;
-	font-size: 100%;
+	font-size: 200%;
 }
 
 .data {
 	margin-left: 10px;
 	margin-top: 2px;
+}
+
+.name {
+	text-decoration: underline;
+}
+
+.noStock {
+	color: red;
+	font-size: 140%;
 }
 </style>
 
@@ -62,17 +70,21 @@ body {
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#/user/{{user.userId}}/diseases"><b>DISEASES<b></a>
 			</div>
-			
+
 			<div class="navbar-header1">
-				<a class="navbar-brand" href="#/user/{{user.userId}}/shoppingCart"><b>SHOPPING CART</b></a>
+				<a class="navbar-brand" href="#/user/{{user.userId}}/shoppingCart"><b>SHOPPING
+						CART</b></a>
 			</div>
 
 			<div class="navbar-header1">
-				<a class="navbar-brand" href="#/user/{{user.userId}}/wishList"><b>WISH LIST</b></a>
+				<a class="navbar-brand" href="#/user/{{user.userId}}/wishList"><b>WISH
+						LIST</b></a>
 			</div>
-			
+
 			<div class="navbar-header1">
-				<a class="navbar-brand" href="#/user/{{user.userId}}/recommendationList"><b>RECOMMENDATION LIST</b></a>
+				<a class="navbar-brand"
+					href="#/user/{{user.userId}}/recommendationList"><b>RECOMMENDATION
+						LIST</b></a>
 			</div>
 
 		</div>
@@ -82,14 +94,10 @@ body {
 	<div class="message">{{message}}</div>
 
 	<div>
-		<h2>Vegetable Details</h2>
-		<br>
-		<br>
+		<h2 class="name">{{vegetable.productName}}</h2>
+		<br> <br>
 
 		<div class="data">
-			<p>
-				<label>Vegetable name: </label> {{vegetable.productName}}
-			</p>
 			<p>
 				<label>Benefits: </label> {{vegetable.benefits}}
 			</p>
@@ -106,11 +114,23 @@ body {
 				<label>Diseases recommended for: </label> {{vegetable.diseaseList}}
 			</p>
 			<p>
-				<label>Additional information link: </label> {{vegetable.readMoreLink}}
+				<label>Additional information link: </label>
+				{{vegetable.readMoreLink}}
 			</p>
 		</div>
-		
-		<a class="btn btn-success" ng-click="AddInShoppingCart()">Add to shopping cart</a>
+
+		<br>
+		<p>
+			Desired quantity: <input type="text" ng-model="quantity" required />
+			<a class="btn btn-success"
+				ng-click="AddInShoppingCart(vegetable.stock)">Add to shopping
+				cart</a>
+		</p>
+
+		<div ng-if="vegetable.stock == 0">
+			<label class=noStock> {{vegetable.productName}} Stock: 0.</label>
+		</div>
+	</div>
 
 	</div>
 

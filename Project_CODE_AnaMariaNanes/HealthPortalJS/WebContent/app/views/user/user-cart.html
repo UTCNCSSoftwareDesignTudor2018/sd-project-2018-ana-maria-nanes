@@ -17,7 +17,7 @@ body {
 	background-image: url("images/cart_faded.jpg");
 }
 
-.welcomeMessage{
+.welcomeMessage {
 	color: black;
 	margin-left: 520px;
 	font-size: 100%;
@@ -30,9 +30,16 @@ body {
 	font-size: 250%;
 }
 
-.cost{
-	margin-left: 950px;
-	font-size: 140%;
+.cost {
+	font-size: 120%;
+}
+
+.placeOrder {
+	font-size: 120%;
+}
+
+.count {
+	font-size: 120%;
 }
 
 </style>
@@ -44,7 +51,7 @@ body {
 </head>
 <body>
 
-	
+
 	<div class="navbar navbar-fixed-top">
 		<div class="container">
 
@@ -68,17 +75,21 @@ body {
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#/user/{{user.userId}}/diseases"><b>DISEASES<b></a>
 			</div>
-			
-		    <div class="navbar-header1">
-				<a class="navbar-brand" href="#/user/{{user.userId}}/shoppingCart"><b>SHOPPING CART</b></a>
+
+			<div class="navbar-header1">
+				<a class="navbar-brand" href="#/user/{{user.userId}}/shoppingCart"><b>SHOPPING
+						CART</b></a>
 			</div>
 
 			<div class="navbar-header1">
-				<a class="navbar-brand" href="#/user/{{user.userId}}/wishList"><b>WISH LIST</b></a>
+				<a class="navbar-brand" href="#/user/{{user.userId}}/wishList"><b>WISH
+						LIST</b></a>
 			</div>
-			
+
 			<div class="navbar-header1">
-				<a class="navbar-brand" href="#/user/{{user.userId}}/recommendationList"><b>RECOMMENDATION LIST</b></a>
+				<a class="navbar-brand"
+					href="#/user/{{user.userId}}/recommendationList"><b>RECOMMENDATION
+						LIST</b></a>
 			</div>
 		</div>
 	</div>
@@ -89,28 +100,39 @@ body {
 	<br>
 	<br>
 
-	<div ng-if="products.length > 0">
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th>Product</th>
-					<th>Quantity</th>
-					<th>Price</th>
-					<th>Total</th>
-				</tr>
-			</thead>
-			<tbody>
+  <div ng-if="products.length > 0">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Product</th>
+				<th>Quantity</th>
+				<th>Price</th>
+				<th>Total</th>
+			</tr>
+		</thead>
+		<tbody>
 
 
-				<tr ng-repeat="product in products">
-				<td>{{product.productName}}</td>
-				</tr>
-			</tbody>
-		</table>
+			<tr ng-repeat="product in products">
+				<td>{{product.productDTO.productName}}</td>
+				<td>{{product.quantity}}</td>
+				<td>$ {{product.productDTO.price}}</td>
+				<td>$ {{product.total}}</td>
+				<td><a class="btn btn-success" ng-click="RemoveFromShoppingCart(product.cartProdId)">Remove</a></td>
+			</tr>
+		</tbody>
+	</table>
+ </div>
+
+	<div class="count">
+		<label>NUMBER OF PRODUCTS:</label> {{shoppingCart.productNo}}
 	</div>
-	
-	<div class = "cost">
-	<label>TOTAL COST:</label> $ {{shoppingCart.totalCost}}	
+	<div class="cost">
+		<label>TOTAL COST:</label> $ {{shoppingCart.totalCost}}
+	</div>
+	<br>
+	<div class="placeOrder">
+		<a class="btn btn-success" ng-click="PaceOrder()">PLACE ORDER</a>
 	</div>
 
 </body>

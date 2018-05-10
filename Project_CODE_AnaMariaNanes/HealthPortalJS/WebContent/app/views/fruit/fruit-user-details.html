@@ -19,14 +19,23 @@ body {
 
 .message {
 	color: black;
+	margin-left: 400px;
 	margin-top: 4px;
-	margin-left: 200px;
-	font-size: 100%;
+	font-size: 200%;
 }
 
 .data {
 	margin-left: 10px;
 	margin-top: 2px;
+}
+
+.name {
+	text-decoration: underline;
+}
+
+.noStock {
+	color: red;
+	font-size: 140%;
 }
 </style>
 
@@ -61,17 +70,21 @@ body {
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#/user/{{user.userId}}/diseases"><b>DISEASES<b></a>
 			</div>
-			
+
 			<div class="navbar-header1">
-				<a class="navbar-brand" href="#/user/{{user.userId}}/shoppingCart"><b>SHOPPING CART</b></a>
+				<a class="navbar-brand" href="#/user/{{user.userId}}/shoppingCart"><b>SHOPPING
+						CART</b></a>
 			</div>
 
 			<div class="navbar-header1">
-				<a class="navbar-brand" href="#/user/{{user.userId}}/wishList"><b>WISH LIST</b></a>
+				<a class="navbar-brand" href="#/user/{{user.userId}}/wishList"><b>WISH
+						LIST</b></a>
 			</div>
-			
+
 			<div class="navbar-header1">
-				<a class="navbar-brand" href="#/user/{{user.userId}}/recommendationList"><b>RECOMMENDATION LIST</b></a>
+				<a class="navbar-brand"
+					href="#/user/{{user.userId}}/recommendationList"><b>RECOMMENDATION
+						LIST</b></a>
 			</div>
 
 		</div>
@@ -81,13 +94,10 @@ body {
 	<div class="message">{{message}}</div>
 
 	<div>
-		<h2>Fruit Details</h2>
+		<h2 class="name">{{fruit.productName}}</h2>
 		<br> <br>
 
 		<div class="data">
-			<p>
-				<label>Fruit name: </label> {{fruit.productName}}
-			</p>
 			<p>
 				<label>Benefits: </label> {{fruit.benefits}}
 			</p>
@@ -107,7 +117,16 @@ body {
 				<label>Additional information link: </label> {{fruit.readMoreLink}}
 			</p>
 		</div>
-		
-		<a class="btn btn-success" ng-click="AddInShoppingCart()">Add to shopping cart</a>
+
+		<br>
+		<p>
+			Desired quantity: <input type="text" ng-model="quantity" required />
+			<a class="btn btn-success" ng-click="AddInShoppingCart(fruit.stock)">Add
+				to shopping cart</a>
+		</p>
+
+		<div ng-if="fruit.stock == 0">
+			<label class=noStock>{{fruit.productName}} Stock: 0.</label>
+		</div>
 </body>
 </html>

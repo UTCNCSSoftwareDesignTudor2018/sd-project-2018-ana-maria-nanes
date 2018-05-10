@@ -15,7 +15,7 @@
 			templateUrl : 'app/views/fruit/fruit-admin-details.html',
 			controller : 'FruitController',
 			controllerAs : "fruitCtrl"
-		}).when('/fruit/admin/update/:fruitId',{
+		}).when('/fruit/admin/update/:fruitId', {
 			templateUrl : 'app/views/fruit/fruit-update.html',
 			controller : 'FruitUpdateController',
 			controllerAs : "fruitUpdateCtrl"
@@ -26,7 +26,7 @@
 		})
 	});
 
-	fruitsModule.controller('FruitAdminListController', [ '$scope', 
+	fruitsModule.controller('FruitAdminListController', [ '$scope',
 			'$routeParams', '$window', 'FruitFactory',
 			function($scope, $routeParams, $window, FruitFactory) {
 
@@ -42,155 +42,214 @@
 
 			} ]);
 
-	fruitsModule.controller('FruitAddNewController', [ '$scope','$http',
-			'$routeParams', '$window', 'FruitFactory',
-			function($scope,$http, $routeParams, $window, FruitFactory) {
+	fruitsModule
+			.controller(
+					'FruitAddNewController',
+					[
+							'$scope',
+							'$http',
+							'$routeParams',
+							'$window',
+							'FruitFactory',
+							function($scope, $http, $routeParams, $window,
+									FruitFactory) {
+
+								$scope.message = "Fruit is nature's candy.";
+
+								$scope.SendData = function() {
+									var data = {
+
+										productName : $scope.productName,
+										type : "fruit",
+										benefits : $scope.benefits,
+										distributor : $scope.distributor,
+										price : $scope.price,
+										stock : $scope.stock,
+										diseaseList : $scope.diseaseList,
+										readMoreLink : $scope.readMoreLink,
+									};
+
+									var _config = {
+										headers : {
+											'Content-Type' : 'application/json;charset=utf-8;'
+										}
+									}
+
+									$http
+											.post(
+													'http://localhost:8080/health-portal'
+															+ '/product/added',
+													data, _config)
+											.success(
+													function() {
+														$scope.feedbackMessage = "The fruit was successfully inserted in the system.";
+
+														$scope.productName = "";
+														$scope.benefits = "";
+														$scope.distributor = "";
+														$scope.price = "";
+														$scope.stock = "";
+														$scope.diseaseList = "";
+														$scope.readMoreLink = ""
+
+													})
+											.error(
+													function() {
+														$scope.feedbackMessage = "An error occured! The fruit was not inserted in the system!";
+
+														$scope.productName = "";
+														$scope.benefits = "";
+														$scope.distributor = "";
+														$scope.price = "";
+														$scope.stock = "";
+														$scope.diseaseList = "";
+														$scope.readMoreLink = ""
+
+													})
+								};
+							} ]);
+
+	fruitsModule.controller('FruitController', [ '$scope', '$window',
+			'$routeParams', 'FruitFactory',
+			function($scope, $window, $routeParams, FruitFactory) {
 
 				$scope.message = "Fruit is nature's candy.";
-				
-				   $scope.SendData = function () {	 
-			            var data = {
-		                
-			                productName : $scope.productName,
-			                type: "fruit",
-			    		    benefits : $scope.benefits,
-			    		    distributor : $scope.distributor,			    		 
-			    		    price : $scope.price,
-			    		    stock : $scope.stock,
-			    		    diseaseList : $scope.diseaseList,
-			    		    readMoreLink : $scope.readMoreLink,			    		    
-			            };
-			        
-			            var _config = {
-			                headers : {
-			                    'Content-Type': 'application/json;charset=utf-8;'
-			                }
-			            }
 
-			            $http.post('http://localhost:8080/health-portal' + '/product/added', data, _config)
-			            .success(function(){
-			            	$scope.feedbackMessage = "The fruit was successfully inserted in the system.";
-			            	
-			            	$scope.productName = "";
-			    		    $scope.benefits = "";
-			    		    $scope.distributor = "";
-			    		    $scope.price = "";
-			    		    $scope.stock = "";
-			    		    $scope.diseaseList = "";
-			    		    $scope.readMoreLink = ""
-
-			    		    	
-			            }).error(function(){
-			            	$scope.feedbackMessage = "An error occured! The fruit was not inserted in the system!";
-			            	
-			            	$scope.productName = "";
-			    		    $scope.benefits = "";
-			    		    $scope.distributor = "";
-			    		    $scope.price = "";
-			    		    $scope.stock = "";
-			    		    $scope.diseaseList = "";
-			    		    $scope.readMoreLink = ""
-			    		    	
-			            })		                   
-			        };
-			} ]);
-	
-	 fruitsModule.controller('FruitController', [ '$scope', '$window', '$routeParams', 'FruitFactory', 
-		 function($scope, $window, $routeParams, FruitFactory) {
-				
-		       $scope.message = "Fruit is nature's candy."; 
-		 
-		        var fruitId = $routeParams.fruitId;
-				var promise = FruitFactory.findFruitById(fruitId);     
-				$scope.fruit = null;									
+				var fruitId = $routeParams.fruitId;
+				var promise = FruitFactory.findFruitById(fruitId);
+				$scope.fruit = null;
 				promise.success(function(data) {
 					$scope.fruit = data;
 				}).error(function(data, status, header, config) {
 					alert(status);
 				});
-				
-				$scope.DeleteData = function(){
-					  FruitFactory.deleteFruitById(fruitId);  
-					  $window.alert("The fruit has been deleted.");			
-					};			
-				
+
+				$scope.DeleteData = function() {
+					FruitFactory.deleteFruitById(fruitId);
+					$window.alert("The fruit has been deleted.");
+				};
+
 			} ]);
-	 
-	 fruitsModule.controller('FruitUpdateController', [ '$scope', '$routeParams', 'FruitFactory', 
-		 function($scope, $routeParams, FruitFactory) {
-				
-		        var id = $routeParams.fruitId;		
-		        
-		        $scope.message = "Fruit is nature's candy.";
-		        
-		        var promise = FruitFactory.findFruitById(id);     
-				$scope.fruit = null;									
-				promise.success(function(data) {
-					$scope.fruit = data;
-				}).error(function(data, status, header, config) {
-					alert(status);
-				});
-				
-				$scope.message ="";
-			    
-			    $scope.UpdateData = function () {	 
-		            var data = $scope.fruit;
-		        
-		            var _config = {
-		                headers : {
-		                    'Content-Type': 'application/json;charset=utf-8;'
-		                }
-		            }
-		            
-		           FruitFactory.updateFruit(id,data,_config)
-		           .success(function(){
-		        	   $scope.feedbackMessage ="The fruit info was successfully updated.";
-		           })
-		           .error(function(){
-		        	   $scope.feedbackMessage ="An error occured while updating the fruit info.";
-		           })
-		        };
-		    }]);
-		
-		
-		 fruitsModule.controller('FruitUserDetailsController', [ '$scope', '$window', '$routeParams', 'FruitFactory', 'UserFactory', 'CartProductFactory',
-			 function($scope, $window, $routeParams, FruitFactory, UserFactory, CartProductFactory) {
-					
-			        $scope.message = "Fruit is nature's candy."; 
-			 
-			        var fruitId = $routeParams.fruitId; 				//fruitId
-					var promise = FruitFactory.findFruitById(fruitId);     
-					$scope.fruit = null;									
-					promise.success(function(data) {
-						$scope.fruit = data;
-					}).error(function(data, status, header, config) {
-						alert(status);
-					});
-					
-					var userId= $routeParams.id;                          //userId
-					var promise = UserFactory.findById(userId);               
-					$scope.user = null;									 
-					promise.success(function(data) {
-						$scope.user = data;
-					}).error(function(data, status, header, config) {
-						alert(status);
-					});	
-					
-					$scope.AddInShoppingCart = function () {	      //add fruit
-					    var data = null;
-						var _config = {
-				                headers : {
-				                    'Content-Type': 'application/json;charset=utf-8;'
-				                }
-				            }
-				            						
-				     CartProductFactory.addProductToCart(fruitId,userId,data,_config)
-				        .success(function(){
-				        	$window.alert("Fruit has been added to the shopping cart.");
-				         }).error(function(){
-				        	$window.alert("An error occured."); 	
-				         })		                   
-				        };
-						
-				} ]);
+
+	fruitsModule
+			.controller(
+					'FruitUpdateController',
+					[
+							'$scope',
+							'$routeParams',
+							'FruitFactory',
+							function($scope, $routeParams, FruitFactory) {
+
+								var id = $routeParams.fruitId;
+
+								$scope.message = "Fruit is nature's candy.";
+
+								var promise = FruitFactory.findFruitById(id);
+								$scope.fruit = null;
+								promise.success(function(data) {
+									$scope.fruit = data;
+								}).error(
+										function(data, status, header, config) {
+											alert(status);
+										});
+
+								$scope.message = "";
+
+								$scope.UpdateData = function() {
+									var data = $scope.fruit;
+
+									var _config = {
+										headers : {
+											'Content-Type' : 'application/json;charset=utf-8;'
+										}
+									}
+
+									FruitFactory
+											.updateFruit(id, data, _config)
+											.success(
+													function() {
+														$scope.feedbackMessage = "The fruit info was successfully updated.";
+													})
+											.error(
+													function() {
+														$scope.feedbackMessage = "An error occured while updating the fruit info.";
+													})
+								};
+							} ]);
+
+	fruitsModule
+			.controller(
+					'FruitUserDetailsController',
+					[
+							'$scope',
+							'$window',
+							'$routeParams',
+							'FruitFactory',
+							'UserFactory',
+							'CartProductFactory',
+							function($scope, $window, $routeParams,
+									FruitFactory, UserFactory,
+									CartProductFactory) {
+
+								$scope.message = "Fruit is nature's candy.";
+
+								var fruitId = $routeParams.fruitId; // fruitId
+								var promise = FruitFactory
+										.findFruitById(fruitId);
+								$scope.fruit = null;
+								promise.success(function(data) {
+									$scope.fruit = data;
+								}).error(
+										function(data, status, header, config) {
+											alert(status);
+										});
+
+								var userId = $routeParams.id; // userId
+								var promise = UserFactory.findById(userId);
+								$scope.user = null;
+								promise.success(function(data) {
+									$scope.user = data;
+								}).error(
+										function(data, status, header, config) {
+											alert(status);
+										});
+
+								$scope.AddInShoppingCart = function(stock) { // add fruit
+
+									if ($scope.quantity <= stock) {
+
+										var data = null;
+										var _config = {
+											headers : {
+												'Content-Type' : 'application/json;charset=utf-8;'
+											}
+										}
+
+										var data = {
+
+											quantity : $scope.quantity
+										};
+
+										CartProductFactory
+												.addProductToCart(fruitId,
+														userId, data, _config)
+												.success(
+														function() {
+															$window
+																	.alert("Fruit has been added to the shopping cart.");
+															$scope.quantity = "";
+														})
+												.error(
+														function() {
+															$window
+																	.alert("An error occured.");
+															$scope.quantity = "";
+														})
+									} else {
+										$window.alert("Not enough pieces in stock.");
+										$scope.quantity = "";
+									}
+								};
+
+							} ]);
 })();

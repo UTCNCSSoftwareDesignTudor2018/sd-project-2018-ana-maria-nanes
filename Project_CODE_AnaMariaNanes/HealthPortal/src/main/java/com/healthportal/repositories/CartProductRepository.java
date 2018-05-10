@@ -1,6 +1,7 @@
 package com.healthportal.repositories;
 
 import com.healthportal.entities.CartProduct;
+import com.healthportal.entities.ShoppingCart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +13,6 @@ public interface CartProductRepository extends JpaRepository<CartProduct, Intege
     CartProduct findByCartProdId(int id);
     List<CartProduct> findAll();
     void delete(CartProduct  cartProduct);
+    void deleteAllByShoppingCart(ShoppingCart shoppingCart);
     CartProduct save(CartProduct cartProduct);
 }

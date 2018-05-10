@@ -11,6 +11,7 @@
 			  'diseaseControllers', 'diseaseServices',
 			  'shoppingCartServices',
 			  'cartProductServices',
+			  'productServices',
 		     ])
     
 })();

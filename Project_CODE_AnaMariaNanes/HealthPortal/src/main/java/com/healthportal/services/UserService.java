@@ -20,6 +20,9 @@ public class UserService {
 	@Inject
 	private ShoppingCartService shoppingCartService;
 
+	@Inject
+    private ProductService productService;
+
 	public UserDTO findByUserid(int userID) {
 
 		User user = userRepository.findByUserId(userID);
@@ -169,25 +172,21 @@ public class UserService {
 		return toReturn;
 	}
 
-	public List<ProductDTO> findUserShoppingCart(int id){
-         List<ProductDTO> toReturn = new ArrayList<>();
+	public List<CartProductDTO> findUserShoppingCart(int id){
+         List<CartProductDTO> toReturn = new ArrayList<>();
 
          User user = userRepository.findByUserId(id);
          ShoppingCart cart = user.getShoppingCart();
 		 List<CartProduct> cartProducts = cart.getCartProducts();
-		 for(CartProduct cartProduct: cartProducts){
-             Product product = cartProduct.getProduct();
+		 for(CartProduct cartProd: cartProducts){
+             int productId = cartProd.getProduct().getProductId();
+             ProductDTO productDTO = productService.findByProductId(productId);
 
-             ProductDTO dto = new ProductDTO.Builder()
-                     .productId(product.getProductId())
-                     .productName(product.getProductName())
-                     .type(product.getType())
-                     .benefits(product.getBenefits())
-                     .distributor(product.getDistributor())
-                     .price(product.getPrice())
-                     .stock(product.getStock())
-                     .readMoreLink(product.getReadMoreLink())
-                     .diseaseList(product.getDiseaseList())
+             CartProductDTO dto = new CartProductDTO.Builder()
+					 .cartProdId(cartProd.getCartProdId())
+					 .quantity(cartProd.getQuantity())
+                     .total(cartProd.getTotal())
+                     .productDTO(productDTO)
                      .create();
 
 		        toReturn.add(dto);

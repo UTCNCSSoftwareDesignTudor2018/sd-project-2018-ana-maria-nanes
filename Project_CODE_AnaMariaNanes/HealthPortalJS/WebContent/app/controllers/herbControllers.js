@@ -152,47 +152,61 @@
 			        };
 			    }]);
 		 
-		  herbsModule.controller('HerbUserDetailsController', [ '$scope', '$window', '$routeParams', 'HerbFactory', 'UserFactory','CartProductFactory',
-				 function($scope, $window, $routeParams, HerbFactory, UserFactory, CartProductFactory) {
+		 herbsModule.controller('HerbUserDetailsController', [ '$scope', '$window', '$routeParams', 'HerbFactory', 'UserFactory', 'CartProductFactory',
+			 function($scope, $window, $routeParams, HerbFactory, UserFactory, CartProductFactory) {
+					
+			        $scope.message =  "Herbalism is nature's way of healing us.";
+			 
+			        var herbId = $routeParams.herbId; 				    // herbId
+					var promise = HerbFactory.findHerbById(herbId);     
+					$scope.herb = null;									
+					promise.success(function(data) {
+						$scope.herb = data;
+					}).error(function(data, status, header, config) {
+						alert(status);
+					});
+					
+					var userId= $routeParams.id;                          //userId
+					var promise = UserFactory.findById(userId);               
+					$scope.user = null;									 
+					promise.success(function(data) {
+						$scope.user = data;
+					}).error(function(data, status, header, config) {
+						alert(status);
+					});	
+					
+					$scope.AddInShoppingCart = function (stock) {	          //add herb
+					    
+						if ($scope.quantity <= stock) {
+						var data = null;
+						var _config = {
+				                headers : {
+				                    'Content-Type': 'application/json;charset=utf-8;'
+				                }
+				            }
 						
-				        var herbId = $routeParams.herbId;
-				        
-					    $scope.message = "Herbalism is nature's way of healing us.";
-				        
-						var promise = HerbFactory.findHerbById(herbId);     
-						$scope.herb = null;									
-						promise.success(function(data) {
-							$scope.herb = data;
-						}).error(function(data, status, header, config) {
-							alert(status);
-						});
+					    var data = {
+				                
+				                quantity : $scope.quantity    		    
+				            };
+				            						
+				     CartProductFactory.addProductToCart(herbId,userId,data,_config)
+				        .success(function(){
+				        	$window.alert("Herb has been added to the shopping cart.");
+				        	 $scope.quantity = "";
+				         }).error(function(){
+				        	$window.alert("An error occured."); 	
+				        	 $scope.quantity = "";
+				         })		                   
+				       
+					}else
+						{
+						    $window.alert("Not enough pieces in stock.");
+						    $scope.quantity = "";
+						}
+					 };
 						
-						var userId = $routeParams.id;  
-						var promise = UserFactory.findById(userId);               
-						$scope.user = null;									 
-						promise.success(function(data) {
-							$scope.user = data;
-						}).error(function(data, status, header, config) {
-							alert(status);
-						});	
-						
-						$scope.AddInShoppingCart = function () {	      //add herb
-						    var data = null;
-							var _config = {
-					                headers : {
-					                    'Content-Type': 'application/json;charset=utf-8;'
-					                }
-					            }
-					            						
-					     CartProductFactory.addProductToCart(herbId,userId,data,_config)
-					        .success(function(){
-					        	$window.alert("Herb has been added to the shopping cart.");
-					         }).error(function(){
-					        	$window.alert("An error occured."); 	
-					         })		                   
-					        };
-										
-					} ]);
+				} ]);
 	
 	
 	

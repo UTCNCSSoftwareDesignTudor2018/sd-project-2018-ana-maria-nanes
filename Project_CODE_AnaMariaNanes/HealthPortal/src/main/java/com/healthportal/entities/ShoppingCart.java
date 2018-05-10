@@ -83,4 +83,22 @@ public class ShoppingCart {
     public void setCartProducts(List<CartProduct> cartProducts) {
         this.cartProducts = cartProducts;
     }
+
+    public void computeTotalCost(){
+        int computedToatal = 0;
+        for(CartProduct cartProduct: cartProducts){
+            computedToatal += cartProduct.getTotal();
+        }
+        this.totalCost = computedToatal;
+        System.out.println("--------computedTotal: " + computedToatal);
+    }
+
+    public void computeTotalProductNo() {
+        int computedNo = 0;
+        for(CartProduct cartProduct: cartProducts){
+            computedNo += cartProduct.getQuantity();
+        }
+        this.productNo = computedNo;
+        System.out.println("--------computedNo: " + computedNo);
+    }
 }

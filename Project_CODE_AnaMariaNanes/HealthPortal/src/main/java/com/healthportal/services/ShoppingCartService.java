@@ -1,12 +1,13 @@
 package com.healthportal.services;
 
-import com.healthportal.dto.ProductDTO;
 import com.healthportal.dto.ShoppingCartDTO;
 import com.healthportal.dto.UserDTO;
-import com.healthportal.entities.Product;
+import com.healthportal.entities.CartProduct;
 import com.healthportal.entities.ShoppingCart;
 import com.healthportal.entities.User;
 import com.healthportal.errorhandler.ResourceNotFoundException;
+import com.healthportal.observer.Observer;
+import com.healthportal.repositories.CartProductRepository;
 import com.healthportal.repositories.ShoppingCartRepository;
 import com.healthportal.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ShoppingCartService {
+public class ShoppingCartService implements Observer {
 
     @Inject
     private ShoppingCartRepository shoppingCartRepository;
@@ -24,10 +25,13 @@ public class ShoppingCartService {
     @Inject
     private UserRepository userRepository;
 
-    public ShoppingCartDTO findByCartlId(int id){
+    @Inject
+    private CartProductRepository cartProductRepository;
+
+    public ShoppingCartDTO findByCartlId(int id) {
         ShoppingCart shoppingCart = shoppingCartRepository.getByCartId(id);
 
-        if(shoppingCart == null){
+        if (shoppingCart == null) {
             throw new ResourceNotFoundException(ShoppingCart.class.getSimpleName());
         }
 
@@ -40,39 +44,39 @@ public class ShoppingCartService {
         return dto;
     }
 
-    public ShoppingCartDTO findByUser(int userId){
+    public ShoppingCartDTO findByUser(int userId) {
         User user = userRepository.findByUserId(userId);
         ShoppingCart shoppingCart = shoppingCartRepository.getByUser(user);
 
-        if(shoppingCart == null){
+        if (shoppingCart == null) {
             throw new ResourceNotFoundException(ShoppingCart.class.getSimpleName());
         }
 
         UserDTO userDto = new UserDTO.Builder()
-                         .userid(user.getUserId())
-                         .username(user.getUsername())
-                         .name(user.getName())
-                         .address(user.getAddress())
-                         .age(user.getAge())
-                         .gender(user.getGender())
-                         .password(user.getPassword())
-                         .role(user.getRole())
-                         .create();
+                .userid(user.getUserId())
+                .username(user.getUsername())
+                .name(user.getName())
+                .address(user.getAddress())
+                .age(user.getAge())
+                .gender(user.getGender())
+                .password(user.getPassword())
+                .role(user.getRole())
+                .create();
 
         ShoppingCartDTO dto = new ShoppingCartDTO.Builder()
-                 .cartId(shoppingCart.getCartId())
-                 .productNo(shoppingCart.getProductNo())
-                 .totalCost(shoppingCart.getTotalCost())
-                 .userDto(userDto)
-                 .create();
+                .cartId(shoppingCart.getCartId())
+                .productNo(shoppingCart.getProductNo())
+                .totalCost(shoppingCart.getTotalCost())
+                .userDto(userDto)
+                .create();
 
         return dto;
     }
 
-     public List<ShoppingCartDTO> findAll(){
+    public List<ShoppingCartDTO> findAll() {
         List<ShoppingCart> carts = shoppingCartRepository.findAll();
         List<ShoppingCartDTO> toReturn = new ArrayList<>();
-        for(ShoppingCart shoppingCart: carts){
+        for (ShoppingCart shoppingCart : carts) {
             ShoppingCartDTO dto = new ShoppingCartDTO.Builder()
                     .cartId(shoppingCart.getCartId())
                     .productNo(shoppingCart.getProductNo())
@@ -83,20 +87,20 @@ public class ShoppingCartService {
         return toReturn;
     }
 
-    public ShoppingCart addShoppingCart(int userId,ShoppingCart shoppingCart){
+    public ShoppingCart addShoppingCart(int userId, ShoppingCart shoppingCart) {
 
-         if(shoppingCart == null){
-             throw new ResourceNotFoundException(ShoppingCart.class.getSimpleName());
-         }
-         shoppingCart.setUser(userRepository.findByUserId(userId));
+        if (shoppingCart == null) {
+            throw new ResourceNotFoundException(ShoppingCart.class.getSimpleName());
+        }
+        shoppingCart.setUser(userRepository.findByUserId(userId));
 
-         ShoppingCart newCart = shoppingCartRepository.save(shoppingCart);
-         return newCart;
+        ShoppingCart newCart = shoppingCartRepository.save(shoppingCart);
+        return newCart;
     }
 
-    public ShoppingCart updateShoppingCart(int userId,ShoppingCart shoppingCart){
+    public ShoppingCart updateShoppingCart(int userId, ShoppingCart shoppingCart) {
 
-        if(shoppingCart == null){
+        if (shoppingCart == null) {
             throw new ResourceNotFoundException(ShoppingCart.class.getSimpleName());
         }
 
@@ -109,5 +113,21 @@ public class ShoppingCartService {
         return updated;
     }
 
+    public void update(String command, int id) {
+        CartProduct  cartProduct = cartProductRepository.findByCartProdId(id);
+        ShoppingCart shoppingCart = cartProduct.getShoppingCart();
+
+        if(command.equals("added")){
+            shoppingCart.setTotalCost(shoppingCart.getTotalCost() + cartProduct.getTotal());
+            shoppingCart.setProductNo(shoppingCart.getProductNo() + cartProduct.getQuantity());
+        }
+        else{
+            shoppingCart.setTotalCost(shoppingCart.getTotalCost() - cartProduct.getTotal());
+            shoppingCart.setProductNo(shoppingCart.getProductNo() - cartProduct.getQuantity());
+        }
+
+        ShoppingCart updated = shoppingCartRepository.save(shoppingCart);
+
+    }
 
 }

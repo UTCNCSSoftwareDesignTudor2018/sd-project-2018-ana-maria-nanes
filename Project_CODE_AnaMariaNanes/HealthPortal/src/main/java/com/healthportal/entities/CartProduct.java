@@ -21,6 +21,12 @@ public class CartProduct implements Serializable{
     @Column(name = "cartProdId", unique = true, nullable = false)
     private Integer cartProdId;
 
+    @Column(name = "quantity")
+    private int quantity =0;
+
+    @Column(name = "total",nullable = true)
+    private float total =0;
+
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
@@ -59,5 +65,21 @@ public class CartProduct implements Serializable{
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
     }
 }

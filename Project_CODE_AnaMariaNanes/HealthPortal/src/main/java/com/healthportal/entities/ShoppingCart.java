@@ -85,12 +85,11 @@ public class ShoppingCart {
     }
 
     public void computeTotalCost(){
-        int computedToatal = 0;
+        float computedToatal = 0;
         for(CartProduct cartProduct: cartProducts){
             computedToatal += cartProduct.getTotal();
         }
         this.totalCost = computedToatal;
-        System.out.println("--------computedTotal: " + computedToatal);
     }
 
     public void computeTotalProductNo() {
@@ -99,6 +98,5 @@ public class ShoppingCart {
             computedNo += cartProduct.getQuantity();
         }
         this.productNo = computedNo;
-        System.out.println("--------computedNo: " + computedNo);
     }
 }

@@ -7,10 +7,11 @@
 .navbar-brand {
 	color: black;
 	bold: true;
+	font-size: 15px !important;
 }
 
 .navbar-header1 {
-	margin-left: 600px;
+	margin-left: 400px;
 }
 
 body {
@@ -70,6 +71,10 @@ body {
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#/user/{{user.userId}}/diseases"><b>DISEASES<b></a>
 			</div>
+			
+			<div class="navbar-header1">
+				<a class="navbar-brand" href="#/user/{{user.userId}}"><b>MY ACCOUNT<b></a>
+			</div>
 
 			<div class="navbar-header1">
 				<a class="navbar-brand" href="#/user/{{user.userId}}/shoppingCart"><b>SHOPPING
@@ -124,6 +129,10 @@ body {
 			<a class="btn btn-success" ng-click="AddInShoppingCart(fruit.stock)">Add
 				to shopping cart</a>
 		</p>
+		
+		<div>
+		   	<a class="btn btn-success" ng-click="AddInWishList()">Add to wish list</a>
+		</div>
 
 		<div ng-if="fruit.stock == 0">
 			<label class=noStock>{{fruit.productName}} Stock: 0.</label>

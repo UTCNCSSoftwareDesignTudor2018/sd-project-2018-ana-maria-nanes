@@ -113,21 +113,39 @@ public class ShoppingCartService implements Observer {
         return updated;
     }
 
-    public void update(String command, int id) {
+    public void update(String command,int id, int quantity, float total) {
         CartProduct  cartProduct = cartProductRepository.findByCartProdId(id);
         ShoppingCart shoppingCart = cartProduct.getShoppingCart();
+        List<CartProduct> cartProducts = shoppingCart.getCartProducts();
 
-        if(command.equals("added")){
-            shoppingCart.setTotalCost(shoppingCart.getTotalCost() + cartProduct.getTotal());
-            shoppingCart.setProductNo(shoppingCart.getProductNo() + cartProduct.getQuantity());
+        float finalTotal = 0;
+        int countProducts =0;
+
+        for(CartProduct cartProd : cartProducts){
+           countProducts += cartProd.getQuantity();
+           finalTotal += cartProd.getTotal();
         }
-        else{
-            shoppingCart.setTotalCost(shoppingCart.getTotalCost() - cartProduct.getTotal());
-            shoppingCart.setProductNo(shoppingCart.getProductNo() - cartProduct.getQuantity());
+
+        boolean found = false;
+        for(CartProduct cartProd : cartProducts){
+            if(cartProd.getProduct().getProductId() == cartProduct.getProduct().getProductId()){
+                found = true;
+            }
         }
+
+        if(command.equals("added")) {
+            if(found == false){
+            finalTotal += total;
+            countProducts += quantity;}
+        }else
+        {
+            finalTotal -= cartProduct.getTotal();
+            countProducts -= cartProduct.getQuantity();
+        }
+
+        shoppingCart.setProductNo(countProducts);
+        shoppingCart.setTotalCost(finalTotal);
 
         ShoppingCart updated = shoppingCartRepository.save(shoppingCart);
-
     }
-
 }

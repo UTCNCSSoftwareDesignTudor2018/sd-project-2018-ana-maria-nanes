@@ -7,10 +7,11 @@
 .navbar-brand {
 	color: black;
 	bold: true;
+	font-size: 15px !important;
 }
 
 .navbar-header1 {
-	margin-left: 600px;
+	margin-left: 400px;
 }
 
 body {
@@ -75,6 +76,14 @@ body {
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#/user/{{user.userId}}/diseases"><b>DISEASES<b></a>
 			</div>
+			
+			<div class="navbar-header1">
+				<a class="navbar-brand" href="#/user/{{user.userId}}"><b>MY ACCOUNT<b></a>
+			</div>
+			
+			<div class="navbar-header1">
+				<a class="navbar-brand" href="#/user/{{user.userId}}/myDiseases"><b>MY DISEASES<b></a>
+			</div>
 
 			<div class="navbar-header1">
 				<a class="navbar-brand" href="#/user/{{user.userId}}/shoppingCart"><b>SHOPPING
@@ -115,7 +124,11 @@ body {
 
 			<tr ng-repeat="product in products">
 				<td>{{product.productDTO.productName}}</td>
-				<td>{{product.quantity}}</td>
+				<td>
+				<a class="btn btn-success" ng-click="ModifyQuantity('-',product.cartProdId)">-</a>
+				{{product.quantity}}
+				<a class="btn btn-success" ng-click="ModifyQuantity('+',product.cartProdId)">+</a>
+				</td>
 				<td>$ {{product.productDTO.price}}</td>
 				<td>$ {{product.total}}</td>
 				<td><a class="btn btn-success" ng-click="RemoveFromShoppingCart(product.cartProdId)">Remove</a></td>

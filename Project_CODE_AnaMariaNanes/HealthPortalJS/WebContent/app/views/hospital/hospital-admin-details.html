@@ -7,6 +7,7 @@
 .navbar-brand {
 	color: black;
 	bold: true;
+	font-size: 15px !important;
 }
 
 body {
@@ -65,8 +66,7 @@ body {
 
 	<div>
 		<h2>Hospital Details</h2>
-		<br>
-		<br>
+		<br> <br>
 
 		<div class="data">
 			<p>
@@ -84,8 +84,11 @@ body {
 		</div>
 
 		<div class="container">
-			<a class="btn btn-primary" href="#/hospital/admin/update/{{hospital.hospitalId}}"> Modify hospital information</a> 
-			<a class="btn btn-primary" href="#/hospitals/admin" ng-click="DeleteData()"> Delete Hospital</a>
+			<a class="btn btn-primary"
+				href="#/hospital/admin/update/{{hospital.hospitalId}}"> Modify
+				hospital information</a> <a class="btn btn-primary"
+				href="#/hospitals/admin" ng-click="DeleteData()"> Delete
+				Hospital</a>
 		</div>
 
 	</div>

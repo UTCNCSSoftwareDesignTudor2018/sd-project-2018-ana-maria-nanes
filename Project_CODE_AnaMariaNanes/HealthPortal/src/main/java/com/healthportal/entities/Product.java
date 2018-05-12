@@ -36,7 +36,7 @@ public class Product {
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
-    private List<WishProduct> wishProducts;
+    private List<WishListProduct> wishProducts;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
@@ -142,11 +142,11 @@ public class Product {
         this.cartProducts = cartProducts;
     }
 
-    public List<WishProduct> getWishProducts() {
+    public List<WishListProduct> getWishProducts() {
         return wishProducts;
     }
 
-    public void setWishProducts(List<WishProduct> wishProducts) {
+    public void setWishProducts(List<WishListProduct> wishProducts) {
         this.wishProducts = wishProducts;
     }
 

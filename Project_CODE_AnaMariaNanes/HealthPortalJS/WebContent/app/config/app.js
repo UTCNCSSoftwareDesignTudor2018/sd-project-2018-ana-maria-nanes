@@ -12,6 +12,8 @@
 			  'shoppingCartServices',
 			  'cartProductServices',
 			  'productServices',
+			  'wishProductServices',
+			  'wishListServices'
 		     ])
     
 })();

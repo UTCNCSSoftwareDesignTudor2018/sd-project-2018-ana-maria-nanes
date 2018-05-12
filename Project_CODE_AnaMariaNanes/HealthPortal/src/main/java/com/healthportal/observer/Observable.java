@@ -6,6 +6,6 @@ public interface Observable {
 
         public void addObserver(Observer o);
         public void removeObserver(Observer o);
-        public void notifyObservers(String command,int id);
+        public void notifyObservers(String command,int id,int quantity, float total);
 
 }

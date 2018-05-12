@@ -182,14 +182,16 @@
 					'FruitUserDetailsController',
 					[
 							'$scope',
+							'$http',
 							'$window',
 							'$routeParams',
 							'FruitFactory',
 							'UserFactory',
 							'CartProductFactory',
-							function($scope, $window, $routeParams,
+							'WishProductFactory',
+							function($scope,$http, $window, $routeParams,
 									FruitFactory, UserFactory,
-									CartProductFactory) {
+									CartProductFactory, WishProductFactory) {
 
 								$scope.message = "Fruit is nature's candy.";
 
@@ -250,6 +252,34 @@
 										$scope.quantity = "";
 									}
 								};
+								
+								$scope.AddInWishList = function() { // add fruit in wish list
+
+
+									var productData = {
+
+											wishProdId : ""
+										};
+									
+										var _config = {
+											headers : {
+												'Content-Type' : 'application/json;charset=utf-8;'
+											}
+										}
+									
+						
+										WishProductFactory
+												.addProductToWishList(fruitId,userId, productData, _config)
+												.success(
+														function() {
+															$window.alert("Fruit has been added to the wish list.");
+														})
+												.error(
+														function() {
+															$window.alert("An error occured.");
+														})
+								};
+
 
 							} ]);
 })();

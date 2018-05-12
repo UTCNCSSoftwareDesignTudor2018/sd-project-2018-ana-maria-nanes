@@ -27,7 +27,7 @@ public class WishList {
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
     @OneToMany(mappedBy = "wishList", cascade = CascadeType.REMOVE)
-    private List<WishProduct> wishProducts;
+    private List<WishListProduct> wishProducts;
 
     public WishList(){
 
@@ -53,11 +53,11 @@ public class WishList {
         this.user = user;
     }
 
-    public List<WishProduct> getWishProducts() {
+    public List<WishListProduct> getWishProducts() {
         return wishProducts;
     }
 
-    public void setWishProducts(List<WishProduct> wishProducts) {
+    public void setWishProducts(List<WishListProduct> wishProducts) {
         this.wishProducts = wishProducts;
     }
 }

@@ -1,7 +1,5 @@
 package com.healthportal.observer;
 
-import com.healthportal.entities.CartProduct;
-
 public interface Observer {
-   public void update(String command,int id);
+   void update(String command,int id,int quantity,float total);
 }

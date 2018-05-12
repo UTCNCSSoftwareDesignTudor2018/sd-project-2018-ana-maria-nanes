@@ -31,6 +31,10 @@
 			templateUrl : 'app/views/user/user-cart.html',
 			controller : 'UserCartController',
 			controllerAs : "userCartAllCtrl"
+		}).when('/user/:id/wishList', {
+			templateUrl : 'app/views/user/user-wishList.html',
+			controller : 'UserWishListController',
+			controllerAs : "userWishListAllCtrl"
 		})
 	});
 
@@ -254,7 +258,6 @@
 					alert(status);
 				});
 
-				var products = [];
 				var promise = UserFactory.findShoppingCart(userId);
 				promise.success(function(data) {
 					$scope.products = data;
@@ -272,7 +275,17 @@
 				});
 
 				$scope.PaceOrder = function() {
+					
+					var check = true;
+					for(var i=0;i<$scope.products.length;i++){
+						if($scope.products[i].productDTO.stock < $scope.products[i].quantity){
+							$window.alert("Not enough " + $scope.products[i].productDTO.productName + "s in stock!\n" + "The current stock is: " +  $scope.products[i].productDTO.stock);
+						    check = false;	
+						}
+					}
 
+					if(check == true){
+						
 					$window.alert("The order has been placed.");
 					CartProductFactory.deleteByShoppingCart($scope.shoppingCart.cartId);
 					
@@ -286,14 +299,97 @@
 					});
 					
 					$window.location.reload();
-
+					
+					}
 				}
 
 				$scope.RemoveFromShoppingCart = function(cartProdId) {
 					CartProductFactory.deleteById(cartProdId);
                     $window.location.reload();
 				}
+				
+				$scope.ModifyQuantity = function(operation,cartProdId) {
+									
+					var cartProductData;
+					var promise = CartProductFactory.findById(cartProdId);
+					promise.success(function(data) {
+					    cartProductData= data;
+					    
+					    var _config = {
+								headers : {
+									'Content-Type' : 'application/json;charset=utf-8;'
+								}
+							}
+					    
+					   if(operation === '+'){
+					    cartProductData.quantity = cartProductData.quantity + 1;
+					    cartProductData.total = cartProductData.total + cartProductData.productDTO.price;
+					   }else
+						   {
+						    cartProductData.quantity = cartProductData.quantity - 1;
+						    cartProductData.total = cartProductData.total - cartProductData.productDTO.price;
+						    
+						    if(cartProductData.quantity == 0){
+								CartProductFactory.deleteById(cartProdId);
+						    	$window.location.reload();
+						    }
+						   }
+					    
+					    var productId = cartProductData.productDTO.productId;
+					    
+					    CartProductFactory.updateCartProduct(cartProdId,productId,$scope.shoppingCart.cartId, cartProductData, _config);
+					    
+						$window.location.reload();
+
+					}).error(function(data, status, header, config) {
+						alert(status);
+					});				
+				}
 
 			} ]);
+	
+	usersModule.controller('UserWishListController', [ '$scope','$routeParams', '$window', 'UserFactory', 'WishProductFactory','WishListFactory',
+		function($scope, $routeParams, $window, UserFactory, WishProductFactory, WishListFactory) {
+
+			var userId = $routeParams.id;
+
+			$scope.products = [];
+
+			var promise = UserFactory.findById(userId);
+			$scope.user = null;
+			promise.success(function(data) {
+				$scope.user = data;
+			}).error(function(data, status, header, config) {
+				alert(status);
+			});
+
+			
+			var promise = UserFactory.findWishList(userId);
+			promise.success(function(data) {
+				$scope.products = data;
+
+			}).error(function(data, status, header, config) {
+				alert(status);
+			});
+			
+			var promise = WishListFactory.findWishListOfUser(userId);
+			promise.success(function(data) {
+				$scope.wishList = data;
+
+			}).error(function(data, status, header, config) {
+				alert(status);
+			});
+			
+			$scope.Remove = function(wishProdId){
+				WishProductFactory.deleteById(wishProdId);
+			    $window.location.reload();
+			}
+			
+			$scope.RemoveAll = function(){
+				WishProductFactory.deleteByWishList($scope.wishList.wishListId);
+				 $window.location.reload();
+			}
+					
+		} ]);
 
 })();

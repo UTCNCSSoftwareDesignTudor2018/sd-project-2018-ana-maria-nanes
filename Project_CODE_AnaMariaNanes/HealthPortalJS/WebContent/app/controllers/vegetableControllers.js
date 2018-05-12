@@ -149,8 +149,8 @@
 			        };
 			    }]);
 		 
-		 vegetablesModule.controller('VegetableUserDetailsController', [ '$scope', '$window', '$routeParams', 'VegetableFactory', 'UserFactory','CartProductFactory',
-			 function($scope, $window, $routeParams, VegetableFactory, UserFactory, CartProductFactory) {
+		 vegetablesModule.controller('VegetableUserDetailsController', [ '$scope', '$window', '$routeParams', 'VegetableFactory', 'UserFactory','CartProductFactory','WishProductFactory',
+			 function($scope, $window, $routeParams, VegetableFactory, UserFactory, CartProductFactory, WishProductFactory) {
 					
 			        $scope.message = "Vegetables are the guide to a healthy life.";
 
@@ -202,6 +202,31 @@
 						    $scope.quantity = "";
 							}
 				        };
+				        
+				        $scope.AddInWishList = function() { // add vegetable in wish list
+							var productData = {
+
+									wishProdId : ""
+								};
+							
+								var _config = {
+									headers : {
+										'Content-Type' : 'application/json;charset=utf-8;'
+									}
+								}
+							
+				
+								WishProductFactory
+										.addProductToWishList(vegetableId,userId, productData, _config)
+										.success(
+												function() {
+													$window.alert("Vegetable has been added to the wish list.");
+												})
+										.error(
+												function() {
+													$window.alert("An error occured.");
+												})
+						};
 				} ]);
 	  
 	

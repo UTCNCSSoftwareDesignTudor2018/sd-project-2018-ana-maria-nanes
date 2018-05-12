@@ -194,15 +194,28 @@ public class UserService {
 		 return toReturn;
     }
 
-    public WishListDTO findUserWishList(int id){
-          User user = userRepository.findByUserId(id);
-          WishList list = user.getWishList();
+	public List<WishListProductDTO> findUserWishList(int id){
+		List<WishListProductDTO> toReturn = new ArrayList<>();
 
-          WishListDTO dto = new WishListDTO.Builder()
-                            .wishListId(list.getWishListId())
-                            .create();
-          return dto;
-    }
+		User user = userRepository.findByUserId(id);
+		WishList wishList = user.getWishList();
+		List<WishListProduct> wishListProducts = wishList.getWishProducts();
+
+		for(WishListProduct wishListProduct: wishListProducts){
+		    int productId = wishListProduct.getProduct().getProductId();
+		    ProductDTO  productDTO = productService.findByProductId(productId);
+
+		    WishListProductDTO dto = new WishListProductDTO.Builder()
+                    .wishProdId(wishListProduct.getWishProdId())
+                    .productDTO(productDTO)
+                    .create();
+
+		    toReturn.add(dto);
+        }
+		return toReturn;
+	}
+
+
 
 	public int create(UserDTO userDTO) {
 

@@ -60,9 +60,9 @@ public class UserController {
 		return userService.findUserShoppingCart(id);
 	}
 
-    @RequestMapping(value = "/{id}/wishList", method = RequestMethod.GET)
-    public WishListDTO getUserWishList (@PathVariable("id") int id) {
-        return userService.findUserWishList(id);
-    }
+	@RequestMapping(value = "/{id}/wishList", method = RequestMethod.GET)
+	public List<WishListProductDTO> getUserWishList (@PathVariable("id") int id) {
+		return userService.findUserWishList(id);
+	}
 
 }

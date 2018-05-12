@@ -91,6 +91,24 @@ public class CartProductService {
         ShoppingCart shoppingCart = shoppingCartRepository.getByUser(user);
         Product product = productRepository.findByProductId(productId);
 
+        List<CartProduct> cartProducts = shoppingCart.getCartProducts();
+        for(CartProduct cartProd : cartProducts){
+            if(cartProd.getProduct().getProductId() == productId){
+
+                CartProduct oldCartProd = cartProductRepository.findByCartProdId(cartProd.getCartProdId());
+
+                oldCartProd.setQuantity(cartProd.getQuantity() + cartProduct.getQuantity());
+                oldCartProd.setTotal(cartProd.getTotal() + cartProduct.getTotal());
+
+                oldCartProd.setProduct(product);
+                oldCartProd.setTotal(oldCartProd.getTotal() + cartProduct.getQuantity() * product.getPrice());
+                oldCartProd.setShoppingCart(shoppingCart);
+
+                cartProductRepository.save(oldCartProd);
+                return cartProd;
+            }
+        }
+
         cartProduct.setProduct(product);
         cartProduct.setTotal(cartProduct.getQuantity() * product.getPrice());
         cartProduct.setShoppingCart(shoppingCart);
@@ -103,8 +121,6 @@ public class CartProductService {
     {
         ShoppingCart shoppingCart = shoppingCartRepository.getByCartId(shoppingCartId);
 
-        //update the stock for each product
-
         List<CartProduct> cartProducts = shoppingCart.getCartProducts();
         for(CartProduct cartProduct : cartProducts){
             int oldStock = cartProduct.getProduct().getStock();
@@ -116,6 +132,23 @@ public class CartProductService {
         shoppingCart.setTotalCost(0);
         shoppingCart.setProductNo(0);
 
+    }
+
+    public CartProduct updateCartProduct(int id,int productId,int cartId, CartProduct cartProduct){
+        CartProduct  cartProd = cartProductRepository.findByCartProdId(id);
+        Product product = productRepository.findByProductId(productId);
+        ShoppingCart shoppingCart = shoppingCartRepository.getByCartId(cartId);
+
+        cartProd.setCartProdId(id);
+        cartProd.setTotal(cartProduct.getTotal());
+        cartProd.setQuantity(cartProduct.getQuantity());
+        cartProd.setShoppingCart(shoppingCart);
+        cartProd.setProduct(product);
+
+        CartProduct newCartProduct = cartProductRepository.save(cartProd);
+        newCartProduct.getShoppingCart().computeTotalCost();
+        newCartProduct.getShoppingCart().computeTotalProductNo();
+        return newCartProduct;
     }
 
 }

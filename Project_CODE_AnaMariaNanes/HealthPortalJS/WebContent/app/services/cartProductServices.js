@@ -15,6 +15,14 @@
 		return $http.delete(config.API_URL + '/cartProduct/' + cartProdId);
 	};
 	
+	var privateCartProduct = function(cartProdId) {
+		return $http.get(config.API_URL + '/cartProduct/' + cartProdId);    
+	};
+	
+	var privateUpdateCartProduct = function(id,productId,cartId,data,_config){
+		return $http.put(config.API_URL + '/cartProduct/' + id + "/product/" + productId + "/cart/" + cartId, data, _config);
+	};
+	
 	
 	 return {
          addProductToCart : function(productId,userId,data,_config) {                 
@@ -27,8 +35,16 @@
 	     
 	     deleteById : function(cartProdId){
 	    	 return  privateDeleteById(cartProdId);
-	     }
-                
+	     },
+	     
+	     findById : function(cartProdId){
+	    	 return privateCartProduct(cartProdId);
+	     },
+	     
+	     updateCartProduct : function(id,productId,cartId,data,_config){
+	    	 return privateUpdateCartProduct(id,productId,cartId,data,_config);
+	     },
+	                  
       };
 
 		} ]);

@@ -22,6 +22,10 @@
 				
 				var privateUserShoppingCart =  function(id){
 					return  $http.get(config.API_URL + '/user/' + id + "/shoppingCart"); 
+				};
+				
+				var privateUserWishList =  function(id){
+					return  $http.get(config.API_URL + '/user/' + id + "/wishList"); 
 				}
 				
 				return {
@@ -44,6 +48,10 @@
 					 	
 					 findShoppingCart : function(userId){         
 							return privateUserShoppingCart(userId);
+						  },
+						  
+				      findWishList : function(userId){         
+							return privateUserWishList(userId);
 						  },
 				   
 				      };

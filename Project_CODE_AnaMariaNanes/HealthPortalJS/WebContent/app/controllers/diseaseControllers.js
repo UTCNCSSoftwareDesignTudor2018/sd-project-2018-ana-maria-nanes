@@ -29,7 +29,7 @@
 	
 	diseasesModule.controller('DiseaseAdminListController', [ '$scope','$routeParams','$window', 'DiseaseFactory',
 		function($scope,$routeParams, $window, DiseaseFactory) {
-			
+		
 		     $scope.diseases = [];
 		     $scope.message = "Any kind of disease is to be treated accordingly.";
 		

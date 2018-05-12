@@ -110,7 +110,8 @@
 		        var user = null;
 				promise.success(function(data) {
 					user = data;
-					 //create shoppingCart
+					 
+					//create shoppingCart
 		            var cartVar = {		                
 			                productNo : 0,
 			                totalCost: 0,  		    
@@ -126,6 +127,14 @@
 			            .success(function(){
 			            }).error(function(){
 			            })	
+			            
+			        	//create wishList
+			            var wishListData = null;			            
+				        $http.post('http://localhost:8080/health-portal/wishList/added/' + user.userId  , wishListData, _config)
+				            .success(function(){
+				            }).error(function(){
+				            })			            
+			            
 				}).error(function(){
 	            	
 	            })

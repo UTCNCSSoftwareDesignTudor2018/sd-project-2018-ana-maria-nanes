@@ -152,8 +152,8 @@
 			        };
 			    }]);
 		 
-		 herbsModule.controller('HerbUserDetailsController', [ '$scope', '$window', '$routeParams', 'HerbFactory', 'UserFactory', 'CartProductFactory',
-			 function($scope, $window, $routeParams, HerbFactory, UserFactory, CartProductFactory) {
+	herbsModule.controller('HerbUserDetailsController', [ '$scope', '$window', '$routeParams', 'HerbFactory', 'UserFactory', 'CartProductFactory','WishProductFactory',
+			 function($scope, $window, $routeParams, HerbFactory, UserFactory, CartProductFactory, WishProductFactory) {
 					
 			        $scope.message =  "Herbalism is nature's way of healing us.";
 			 
@@ -205,6 +205,33 @@
 						    $scope.quantity = "";
 						}
 					 };
+					 
+					 $scope.AddInWishList = function() { // add herb in wish list
+
+
+							var productData = {
+
+									wishProdId : ""
+								};
+							
+								var _config = {
+									headers : {
+										'Content-Type' : 'application/json;charset=utf-8;'
+									}
+								}
+							
+				
+								WishProductFactory
+										.addProductToWishList(herbId,userId, productData, _config)
+										.success(
+												function() {
+													$window.alert("Herb has been added to the wish list.");
+												})
+										.error(
+												function() {
+													$window.alert("An error occured.");
+												})
+						};
 						
 				} ]);
 	

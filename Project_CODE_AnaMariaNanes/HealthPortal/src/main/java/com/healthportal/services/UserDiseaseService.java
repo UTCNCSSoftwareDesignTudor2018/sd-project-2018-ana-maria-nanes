@@ -7,10 +7,12 @@ import com.healthportal.repositories.*;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserDiseaseService {
 
     @Inject
@@ -98,21 +100,34 @@ public class UserDiseaseService {
         return toReturn;
     }
 
-    public void deleteUserDisease(int userId,int diseaseId) {
-        List<UserDisease> allUserDiases = userDiseaseRepository.findAll();
-        UserDisease toDelete = new UserDisease();
-
-        for(UserDisease userDisease: allUserDiases){
-            if(userDisease.getDisease().getDiseaseId() == diseaseId && userDisease.getUser().getUserId() == userId)
-                toDelete = userDisease;
+    public void deleteUserDisease(int id) {
+        UserDisease userDisease = userDiseaseRepository.findByUserDiseaseId(id);
+        if(userDisease == null){
+            throw new ResourceNotFoundException(UserDisease.class.getSimpleName());
         }
-        userDiseaseRepository.delete(toDelete);
+        userDiseaseRepository.delete(userDisease);
     }
 
-    public UserDisease addUserDisease(int userId, int diseaseId,UserDisease userDisease)
-    {
-        if (userDisease == null) {
+    public void deleteByUser(int userId) {
+
+        User user = userRepository.findByUserId(userId);
+        if(user == null){
             throw new ResourceNotFoundException(UserDisease.class.getSimpleName());
+        }
+
+        userDiseaseRepository.deleteAllByUser(user);
+    }
+
+    public UserDisease addUserDisease(int userId, int diseaseId)
+    {
+        UserDisease userDisease = new UserDisease();
+        User user = userRepository.findByUserId(userId);
+        List<UserDisease> userDiseases = user.getUserDiseases();
+
+        for(UserDisease disease : userDiseases){
+            if(disease.getDisease().getDiseaseId() == diseaseId){
+                return disease;
+            }
         }
 
         userDisease.setUser(userRepository.findByUserId(userId));
@@ -121,5 +136,4 @@ public class UserDiseaseService {
         UserDisease newUserDisease = userDiseaseRepository.save(userDisease);
         return newUserDisease;
     }
-
 }

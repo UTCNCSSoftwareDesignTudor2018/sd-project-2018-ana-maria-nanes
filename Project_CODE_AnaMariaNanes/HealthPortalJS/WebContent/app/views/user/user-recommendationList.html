@@ -15,28 +15,24 @@
 }
 
 body {
-	background-image: url("images/herbs_faded.png");
+	background-image: url("images/recommendation_faded.jpg");
+}
+
+.welcomeMessage {
+	color: black;
+	margin-left: 520px;
+	font-size: 100%;
+}
+
+.title {
+	color: black;
+	margin-left: 350px;
+	margin-top: 4px;
+	font-size: 250%;
 }
 
 .message {
-	color: black;
-	margin-left: 400px;
-	margin-top: 4px;
-	font-size: 200%;
-}
-
-.data {
-	margin-left: 10px;
-	margin-top: 2px;
-}
-
-.name {
-	text-decoration: underline;
-}
-
-.noStock {
-	color: red;
-	font-size: 140%;
+	font-size: 150%;
 }
 </style>
 
@@ -46,6 +42,7 @@ body {
 
 </head>
 <body>
+
 
 	<div class="navbar navbar-fixed-top">
 		<div class="container">
@@ -75,9 +72,10 @@ body {
 				<a class="navbar-brand" href="#/user/{{user.userId}}"><b>MY
 						ACCOUNT<b></a>
 			</div>
-			
+
 			<div class="navbar-header1">
-				<a class="navbar-brand" href="#/user/{{user.userId}}/myDiseases"><b>MY DISEASES<b></a>
+				<a class="navbar-brand" href="#/user/{{user.userId}}/myDiseases"><b>MY
+						DISEASES<b></a>
 			</div>
 
 			<div class="navbar-header1">
@@ -95,55 +93,37 @@ body {
 					href="#/user/{{user.userId}}/recommendationList"><b>RECOMMENDATION
 						LIST</b></a>
 			</div>
-
 		</div>
 	</div>
 
 
-	<div class="message">{{message}}</div>
+	<div class="welcomeMessage">Welcome {{user.name}} !</div>
+	<div class="title">Your list of recommended products</div>
+	<br>
+	<br>
 
-	<div>
-		<h2 class="name">{{herb.productName}}</h2>
-		<br> <br>
+	<div ng-if="products.length > 0">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Product</th>
+				</tr>
+			</thead>
+			<tbody>
 
-		<div class="data">
-			<p>
-				<label>Benefits: </label> {{herb.benefits}}
-			</p>
-			<p>
-				<label>Distributor: </label> {{herb.distributor}}
-			</p>
-			<p>
-				<label>Price: </label> {{herb.price}}
-			</p>
-			<p>
-				<label>Stock: </label> {{herb.stock}}
-			</p>
-			<p>
-				<label>Diseases recommended for: </label> {{herb.diseaseList}}
-			</p>
-			<p>
-				<label>Additional information link: </label> {{herb.readMoreLink}}
-			</p>
-		</div>
-
-		<br>
-		<p>
-			Desired quantity: <input type="text" ng-model="quantity" required />
-			<a class="btn btn-success" ng-click="AddInShoppingCart(herb.stock)">Add
-				to shopping cart</a>
-		</p>
-
-		<div>
-			<a class="btn btn-success" ng-click="AddInWishList()">Add to wish
-				list</a>
-		</div>
-
-		<div ng-if="herb.stock == 0">
-			<label class=noStock> {{herb.productName}} Stock: 0.</label>
-		</div>
+				<tr ng-repeat="product in products">
+				<td>{{product.productDTO.productName}}</td>
+				<td><a class="btn btn-success" ng-href = "#/{{product.productDTO.type}}/{{product.productDTO.productId}}/user/{{user.userId}}">Details</a></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 
+	<div ng-if="products.length == 0">
+		<p>Your recommendation list is empty.</p>
+	</div>
+	
+	<a class="btn btn-success" ng-click = ObtainRecommendation(user.userId)>OBTAIN RECOMMENDATION</a>
 
 </body>
 </html>

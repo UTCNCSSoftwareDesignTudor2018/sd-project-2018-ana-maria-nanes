@@ -13,7 +13,9 @@
 			  'cartProductServices',
 			  'productServices',
 			  'wishProductServices',
-			  'wishListServices'
+			  'wishListServices',
+			  'userDiseaseServices',
+			  'recommendationListServices',
 		     ])
     
 })();

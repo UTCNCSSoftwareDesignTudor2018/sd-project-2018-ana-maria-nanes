@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import java.util.List;
 
-
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/health-portal/userDisease")
@@ -27,14 +26,18 @@ public class UserDiseaseController {
         return userDiseaseService.findByUserDiseaseId(id);
     }
 
-    @RequestMapping(value= "/user/{userId}/{diseaseId}", method = RequestMethod.POST)
-    public UserDisease addUserDisease(@PathVariable("userId") int userId, @PathVariable("diseaseId") int diseaseId,@RequestBody UserDisease userDisease) {
-        return userDiseaseService.addUserDisease(userId,diseaseId,userDisease);
+    @RequestMapping(value= "/user/{userId}/disease/{diseaseId}", method = RequestMethod.POST)
+    public UserDisease addUserDisease(@PathVariable("userId") int userId, @PathVariable("diseaseId") int diseaseId) {
+        return userDiseaseService.addUserDisease(userId,diseaseId);
     }
 
-    @RequestMapping(value = "/user/{userId}/{diseaseId}", method = RequestMethod.DELETE)
-    public void deleteUserDisease(@PathVariable("userId") int userId, @PathVariable("diseaseId") int diseaseId){
-        userDiseaseService.deleteUserDisease(userId,diseaseId);
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deleteUserDisease(@PathVariable("id") int id){
+        userDiseaseService.deleteUserDisease(id);
     }
 
+    @RequestMapping(value = "/user/{userId}", method = RequestMethod.DELETE)
+    public void deleteByUser(@PathVariable("userId") int userId){
+        userDiseaseService.deleteByUser(userId);
+    }
 }

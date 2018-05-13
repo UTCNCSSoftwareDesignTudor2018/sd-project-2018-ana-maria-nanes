@@ -4,12 +4,15 @@ import com.healthportal.dto.*;
 import com.healthportal.entities.*;
 import com.healthportal.errorhandler.EntityValidationException;
 import com.healthportal.errorhandler.ResourceNotFoundException;
+import com.healthportal.repositories.ProductRepository;
 import com.healthportal.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -18,10 +21,13 @@ public class UserService {
 	private UserRepository userRepository;
 
 	@Inject
-	private ShoppingCartService shoppingCartService;
+    private ProductService productService;
 
 	@Inject
-    private ProductService productService;
+    private ProductRepository productRepository;
+
+	@Inject
+    private RecommendedProductService recommendedProductService;
 
 	public UserDTO findByUserid(int userID) {
 
@@ -131,24 +137,31 @@ public class UserService {
  		return usr;
  	}
 
- 	public List<DiseaseDTO> findUserDiseases(int id){
-          List<DiseaseDTO> toReturn = new ArrayList<>();
-          List<Disease> diseases = new ArrayList<>();
+ 	public List<UserDiseaseDTO> findUserDiseases(int id){
+          List<UserDiseaseDTO> toReturn = new ArrayList<>();
 
           User user = userRepository.findByUserId(id);
 
-          user.getUserDiseases().stream().forEach(e -> diseases.add(e.getDisease()));
-          for(Disease disease: diseases){
-              DiseaseDTO dto = new DiseaseDTO.Builder()
-                      .diseaseId(disease.getDiseaseId())
-                      .diseaseName(disease.getDiseaseName())
-                      .cause(disease.getCause())
-                      .sympthoms(disease.getSympthoms())
-                      .risks(disease.getRisks())
-                      .wikiLink(disease.getWikiLink())
+		  List<UserDisease> diseases = user.getUserDiseases();
+
+		  for(UserDisease userDisease : diseases){
+
+              Disease theDisease = userDisease.getDisease();
+              DiseaseDTO diseaseDTO = new DiseaseDTO.Builder()
+                      .diseaseId(theDisease.getDiseaseId())
+                      .wikiLink(theDisease.getWikiLink())
+                      .sympthoms(theDisease.getSympthoms())
+                      .cause(theDisease.getCause())
+                      .diseaseName(theDisease.getDiseaseName())
+                      .risks(theDisease.getRisks())
                       .create();
-              toReturn.add(dto);
-          }
+
+		      UserDiseaseDTO  dto= new UserDiseaseDTO.Builder()
+                      .userDiseaseId(userDisease.getUserDiseaseId())
+                      .diseaseDto(diseaseDTO)
+                      .create();
+			  toReturn.add(dto);
+		  }
         return toReturn;
     }
 
@@ -215,12 +228,29 @@ public class UserService {
 		return toReturn;
 	}
 
+	public List<RecommendedProductDTO> findUserRecommendedList(int id) {
+        List<RecommendedProductDTO> toReturn = new ArrayList<>();
 
+        User user = userRepository.findByUserId(id);
+        RecommendedList recommendedList = user.getRecommendedList();
+        List<RecommendedProduct> recProducts = recommendedList.getRecommendedProducts();
+
+        for (RecommendedProduct recommendedProduct : recProducts) {
+            int productId = recommendedProduct.getProduct().getProductId();
+            ProductDTO productDTO = productService.findByProductId(productId);
+
+            RecommendedProductDTO dto = new RecommendedProductDTO.Builder()
+                    .recProdId(recommendedProduct.getRecProdId())
+                    .productDTO(productDTO)
+                    .create();
+            toReturn.add(dto);
+        }
+        return toReturn;
+    }
 
 	public int create(UserDTO userDTO) {
 
 		List<String> validationErrors = validateUser(userDTO);
-
 		if (!validationErrors.isEmpty()) {
 			throw new EntityValidationException(User.class.getSimpleName(), validationErrors);
 		}
@@ -236,7 +266,6 @@ public class UserService {
 		user.setAge(userDTO.getAge());
 
         User usr = userRepository.save(user);
-
 		return usr.getUserId();
 	}
 
@@ -260,6 +289,34 @@ public class UserService {
 			validationErrors.add("Password field should not be empty.");
 		}
 		return validationErrors;
+	}
+
+	public void obtainUserRecommendedList(int userId){
+	     User user = userRepository.findByUserId(userId);
+         RecommendedList recommendedList = user.getRecommendedList();
+
+         List<UserDisease> userDiseases = user.getUserDiseases();
+         List<Product> allProducts = productRepository.findAll();
+         Set<Product> foundProducts = new HashSet<>();
+
+         for(UserDisease userDisease: userDiseases){
+             for(Product product: allProducts){
+                 String prodDiseases = product.getDiseaseList();
+                 String[] diseaseNames = prodDiseases.split(",");
+
+                 for(String diseaseName: diseaseNames){
+                     if(diseaseName.equals(userDisease.getDisease().getDiseaseName())){
+                            foundProducts.add(product);
+                     }
+                 }
+             }
+         }
+
+         for(Product product: foundProducts){
+             RecommendedProduct recommendedProduct = new RecommendedProduct();
+             recommendedProductService.addRecommendedProduct(product.getProductId(),userId,recommendedProduct);
+         }
+
 	}
 
 }

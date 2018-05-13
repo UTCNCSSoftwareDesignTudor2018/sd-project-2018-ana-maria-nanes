@@ -43,7 +43,7 @@
 		    	}
 		       else{
 					
-		    	   $window.alert("The password is not correct.");
+		    	    $window.alert("The password is not correct.");
 					$scope.redirectLink = "http://localhost:8086/health-projectJS/#/";
 			 	}
 				
@@ -81,7 +81,7 @@
 		                }
 		            }
 
-		            $http.post('http://localhost:8080/health-portal' + '/user/added', data, _config)
+		            $http.post('http://localhost:8081/health-portal' + '/user/added', data, _config)
 		            .success(function(){
 		            	$window.alert("The account has been created.");
 		            	
@@ -110,6 +110,8 @@
 		        var user = null;
 				promise.success(function(data) {
 					user = data;
+					
+					$window.alert("userCreated: " + user.username);
 					 
 					//create shoppingCart
 		            var cartVar = {		                
@@ -123,25 +125,36 @@
 			                }
 			            }
 			            
-			            $http.post('http://localhost:8080/health-portal/shoppingCart/added/' + user.userId  , cartVar, _config)
+			           $http.post('http://localhost:8081/health-portal/shoppingCart/added/' + user.userId  , cartVar, _config)
 			            .success(function(){
 			            }).error(function(){
 			            })	
 			            
-			        	//create wishList
-			            var wishListData = null;			            
-				        $http.post('http://localhost:8080/health-portal/wishList/added/' + user.userId  , wishListData, _config)
+			        	// create wishList
+			            var wishListData = {
+			            	wishListId : ""
+			            };
+			            
+			            
+				        $http.post('http://localhost:8081/health-portal/wishList/added/' + user.userId  , wishListData, _config)
 				            .success(function(){
 				            }).error(function(){
-				            })			            
-			            
-				}).error(function(){
-	            	
-	            })
-		        
-		    }; // end sendData()
-	                         
-
+				            })	 
+				           
+				           			            
+				         // create RecommendationList
+				         var recommendationListData = {
+				             recommendedListId : ""	
+				        };
+				        
+				        $http.post('http://localhost:8081/health-portal/recommendationList/added/' + user.userId  , recommendationListData, _config)
+			            .success(function(){
+			            }).error(function(){
+			            })	 
+				           		            
+				}).error(function(){            	
+	            })		        
+		    }; // end sendData()	                         
 		} ]);
 
 })();

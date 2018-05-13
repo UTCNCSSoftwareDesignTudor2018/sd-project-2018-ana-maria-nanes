@@ -67,7 +67,7 @@
 		                }
 		            }
 
-		            $http.post('http://localhost:8080/health-portal' + '/product/added', data, _config)
+		            $http.post('http://localhost:8081/health-portal' + '/product/added', data, _config)
 		            .success(function(){
 		            	$scope.feedbackMessage = "The vegetable was successfully inserted in the system.";
 		            	

@@ -16,5 +16,6 @@ public interface UserDiseaseRepository extends JpaRepository<UserDisease, Intege
     List <UserDisease> findByDisease(Disease disease);
     List<UserDisease> findAll();
     void delete(UserDisease userDisease);
+    void deleteAllByUser(User user);
     UserDisease save(UserDisease userDisease);
 }

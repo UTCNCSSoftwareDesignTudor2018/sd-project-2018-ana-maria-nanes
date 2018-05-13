@@ -35,6 +35,14 @@
 			templateUrl : 'app/views/user/user-wishList.html',
 			controller : 'UserWishListController',
 			controllerAs : "userWishListAllCtrl"
+		}).when('/user/:id/myDiseases', {
+			templateUrl : 'app/views/user/user-myDiseases.html',
+			controller : 'UserMyDiseasesController',
+			controllerAs : "userMyDiseasesAllCtrl"
+		}).when('/user/:id/recommendationList', {
+			templateUrl : 'app/views/user/user-recommendationList.html',
+			controller : 'UserRecommendationController',
+			controllerAs : "userRecommendationAllCtrl"
 		})
 	});
 
@@ -391,5 +399,89 @@
 			}
 					
 		} ]);
+	
+	// for perosnal diseases
+	usersModule.controller('UserMyDiseasesController', [ '$scope','$routeParams', '$window', 'UserFactory','UserDiseaseFactory',
+		function($scope, $routeParams, $window, UserFactory, UserDiseaseFactory) {
+		
+		var userId = $routeParams.id;
+
+		$scope.products = [];
+
+		var promise = UserFactory.findById(userId);
+		$scope.user = null;
+		promise.success(function(data) {
+			$scope.user = data;
+		}).error(function(data, status, header, config) {
+			alert(status);
+		});
+		
+		var promise = UserFactory.findMyDiseases(userId);
+		$scope.myDiseases = null;
+		promise.success(function(data) {
+			$scope.myDiseases = data;
+		}).error(function(data, status, header, config) {
+			alert(status);
+		});
+		
+		$scope.RemoveAll =  function(){
+			UserDiseaseFactory.deleteByUser(userId);
+			$window.location.reload();
+		}
+		
+		$scope.RemoveDisease =  function(id){
+			$window.alert("The disease has been removed.");
+			UserDiseaseFactory.deleteUserDisease(id);
+			$window.location.reload();
+		}
+		
+	} ]);
+	
+	usersModule.controller('UserRecommendationController', [ '$scope','$routeParams', '$window', 'UserFactory','RecommendationListFactory',
+		function($scope, $routeParams, $window, UserFactory, RecommendationListFactory) {
+		
+		var userId = $routeParams.id;
+		
+		var promise = UserFactory.findById(userId);
+		$scope.user = null;
+		promise.success(function(data) {
+			$scope.user = data;
+		}).error(function(data, status, header, config) {
+			alert(status);
+		});
+		
+		var promise = RecommendationListFactory.findRecommendationListOfUser(userId);
+		promise.success(function(data) {
+			$scope.recommendationList = data;
+
+		}).error(function(data, status, header, config) {
+			alert(status);
+		});
+		
+		$scope.products = [];
+		var promise = UserFactory.findRecommendedList(userId);
+		promise.success(function(data) {
+			$scope.products = data;
+
+		}).error(function(data, status, header, config) {
+			alert(status);
+		});
+		
+		$scope.ObtainRecommendation = function(userId){
+			var data;
+
+			var _config = {
+				headers : {
+					'Content-Type' : 'application/json;charset=utf-8;'
+				}
+			}
+
+			$window.alert("pressed");
+			UserFactory.createRecommendation(userId,data,_config);
+			$window.location.reload();
+		}
+		
+    } ]);
+	
 
 })();

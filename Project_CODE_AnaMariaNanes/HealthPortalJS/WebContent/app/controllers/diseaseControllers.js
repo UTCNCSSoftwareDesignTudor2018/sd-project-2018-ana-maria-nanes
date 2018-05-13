@@ -64,7 +64,7 @@
 		                }
 		            }
 
-		            $http.post('http://localhost:8080/health-portal' + '/disease/added', data, _config)
+		            $http.post('http://localhost:8081/health-portal' + '/disease/added', data, _config)
 		            .success(function(){
 		            	$scope.feedbackMessage = "The disease was successfully inserted in the system.";
 		            	
@@ -139,12 +139,12 @@
 		        };
 		    }]);
 	 
-	 diseasesModule.controller('DiseaseUserDetailsController', [ '$scope', '$window', '$routeParams', 'DiseaseFactory', 'UserFactory',
-		 function($scope, $window, $routeParams, DiseaseFactory, UserFactory) {
+	 diseasesModule.controller('DiseaseUserDetailsController', [ '$scope', '$window', '$routeParams', 'DiseaseFactory', 'UserFactory', 'UserDiseaseFactory',
+		 function($scope, $window, $routeParams, DiseaseFactory, UserFactory, UserDiseaseFactory) {
 				
 		        $scope.message = "Any kind of disease is to be treated accordingly.";
 
-		        var diseaseId = $routeParams.diseaseId;
+		        var diseaseId = $routeParams.diseaseId;                    //diseaseId
 				var promise = DiseaseFactory.findDiseaseById(diseaseId);     
 				$scope.disease = null;									
 				promise.success(function(data) {
@@ -153,14 +153,35 @@
 					alert(status);
 				});
 				
-				var id = $routeParams.id;
-				var promise = UserFactory.findById(id);               
+				var userId = $routeParams.id;                              //userId
+				var promise = UserFactory.findById(userId);               
 				$scope.user = null;									 
 				promise.success(function(data) {
 					$scope.user = data;
 				}).error(function(data, status, header, config) {
 					alert(status);
 				});	
+				
+				$scope.AddToMyDiseasesList = function(){    // add userDisease
+					$window.alert
+					var dataUserDisease = {
+							userDiseaseId : ""
+					};
+			        
+		            var _config = {
+		                headers : {
+		                    'Content-Type': 'application/json;charset=utf-8;'
+		                }
+		            };
+					
+		           UserDiseaseFactory.addUserDisease(userId,diseaseId,dataUserDisease,_config)
+		           .success(function(){
+		        	   $window.alert("The disease was registered.");
+		           })
+		           .error(function(){
+		        	   $window.alert("An error ocurred.");
+		           })
+				}				
 			} ]);
 	
 })();

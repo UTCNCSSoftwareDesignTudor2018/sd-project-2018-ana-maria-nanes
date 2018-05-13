@@ -26,6 +26,18 @@
 				
 				var privateUserWishList =  function(id){
 					return  $http.get(config.API_URL + '/user/' + id + "/wishList"); 
+				};
+				
+				var privateUserMyDiseases =  function(id){
+					return  $http.get(config.API_URL + '/user/' + id + "/diseases"); 
+				};
+				
+				var privateUserRecommendedList =  function(id){
+					return  $http.get(config.API_URL + '/user/' + id + "/recommendedList"); 
+				};
+				
+				var privateUserCreateRecommendation = function(userId,data,_config){
+					return $http.post(config.API_URL + '/user/' + userId + "/obtainRecommendation",data,_config);
 				}
 				
 				return {
@@ -53,7 +65,19 @@
 				      findWishList : function(userId){         
 							return privateUserWishList(userId);
 						  },
-				   
+					  
+					 findMyDiseases : function(userId){
+						     return  privateUserMyDiseases(userId);
+					      },
+					      
+					 findRecommendedList : function(userId){
+						     return privateUserRecommendedList(userId);
+					 },
+					 
+					 createRecommendation : function(userId,data,_config){
+						 return privateUserCreateRecommendation(userId,data,_config);
+					 }
+					 				   
 				      };
 			} ]);
 

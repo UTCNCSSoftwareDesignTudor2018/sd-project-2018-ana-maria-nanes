@@ -63,7 +63,7 @@
 		                }
 		            }
 
-		            $http.post('http://localhost:8080/health-portal' + '/hospital/added', data, _config)
+		            $http.post('http://localhost:8081/health-portal' + '/hospital/added', data, _config)
 		            .success(function(){
 		            	$scope.feedbackMessage = "The hospital was successfully inserted in the system.";
 		            	

@@ -163,4 +163,12 @@ public class User implements java.io.Serializable {
     public void setWishList(WishList wishList) {
         this.wishList = wishList;
     }
+
+    public RecommendedList getRecommendedList() {
+        return recommendedList;
+    }
+
+    public void setRecommendedList(RecommendedList recommendedList) {
+        this.recommendedList = recommendedList;
+    }
 }

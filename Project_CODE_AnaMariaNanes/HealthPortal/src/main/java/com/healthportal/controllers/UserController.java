@@ -46,7 +46,7 @@ public class UserController {
 	 }
 
 	@RequestMapping(value = "/{id}/diseases", method = RequestMethod.GET)
-	public List<DiseaseDTO> getUserDiseases(@PathVariable("id") int id) {
+	public List<UserDiseaseDTO> getUserDiseases(@PathVariable("id") int id) {
 		return userService.findUserDiseases(id);
 	}
 
@@ -65,4 +65,13 @@ public class UserController {
 		return userService.findUserWishList(id);
 	}
 
+	@RequestMapping(value = "/{id}/recommendedList", method = RequestMethod.GET)
+	public List<RecommendedProductDTO> getUserRecommendedList (@PathVariable("id") int id) {
+		return userService.findUserRecommendedList(id);
+	}
+
+	@RequestMapping(value = "/{id}/obtainRecommendation", method = RequestMethod.POST)
+	public void obtainUserRecommendedList (@PathVariable("id") int id) {
+		   userService.obtainUserRecommendedList(id);
+	}
 }

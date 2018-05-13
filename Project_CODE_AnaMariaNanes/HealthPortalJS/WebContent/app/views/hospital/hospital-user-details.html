@@ -14,6 +14,10 @@
 	margin-left: 400px;
 }
 
+.name {
+	text-decoration: underline;
+}
+
 
 body {
 	background-image: url("images/hospitals_faded.jpg");
@@ -68,6 +72,10 @@ body {
 			</div>
 			
 			<div class="navbar-header1">
+				<a class="navbar-brand" href="#/user/{{user.userId}}/myDiseases"><b>MY DISEASES<b></a>
+			</div>
+			
+			<div class="navbar-header1">
 				<a class="navbar-brand" href="#/user/{{user.userId}}/shoppingCart"><b>SHOPPING CART</b></a>
 			</div>
 
@@ -86,14 +94,11 @@ body {
 	<div class="message">{{message}}</div>
 
 	<div>
-		<h2>Hospital Details</h2>
+		<h2 class= "name"> {{hospital.hospitalName}} </h2>
 		<br>
 		<br>
 
 		<div class="data">
-			<p>
-				<label>Hospital name: </label> {{hospital.hospitalName}}
-			</p>
 			<p>
 				<label>Address : </label> {{hospital.address}}
 			</p>

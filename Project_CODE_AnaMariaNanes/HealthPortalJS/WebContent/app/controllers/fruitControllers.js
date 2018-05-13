@@ -77,7 +77,7 @@
 
 									$http
 											.post(
-													'http://localhost:8080/health-portal'
+													'http://localhost:8081/health-portal'
 															+ '/product/added',
 													data, _config)
 											.success(

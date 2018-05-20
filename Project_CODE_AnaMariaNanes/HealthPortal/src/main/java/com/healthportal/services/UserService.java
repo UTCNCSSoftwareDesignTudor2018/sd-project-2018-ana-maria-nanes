@@ -297,7 +297,6 @@ public class UserService {
              RecommendedProduct recommendedProduct = new RecommendedProduct();
              recommendedProductService.addRecommendedProduct(product.getProductId(),userId,recommendedProduct);
          }
-
 	}
 
 }

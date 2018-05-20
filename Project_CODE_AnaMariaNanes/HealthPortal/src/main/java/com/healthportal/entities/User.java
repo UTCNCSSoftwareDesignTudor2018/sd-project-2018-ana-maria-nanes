@@ -60,6 +60,16 @@ public class User implements java.io.Serializable {
         this.role = role;
         this.userDiseases = new ArrayList<>();
     }
+    public User( String username, String name, String password, String address, int age, String gender, String role) {
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.address = address;
+        this.age = age;
+        this.gender = gender;
+        this.role = role;
+        this.userDiseases = new ArrayList<>();
+    }
 
 
     public Integer getUserId() {

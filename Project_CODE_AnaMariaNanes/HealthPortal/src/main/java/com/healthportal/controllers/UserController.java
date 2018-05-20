@@ -50,10 +50,6 @@ public class UserController {
 		return userService.findUserDiseases(id);
 	}
 
-	@RequestMapping(value = "/{id}/hospitals", method = RequestMethod.GET)
-	public List<HospitalDTO> getUserHospitals(@PathVariable("id") int id) {
-		return userService.findUserHospitals(id);
-	}
 
 	@RequestMapping(value = "/{id}/shoppingCart", method = RequestMethod.GET)
 	public List<CartProductDTO> getUserShoppingCart (@PathVariable("id") int id) {

@@ -165,25 +165,6 @@ public class UserService {
         return toReturn;
     }
 
-    public List<HospitalDTO> findUserHospitals(int id){
- 		List<HospitalDTO> toReturn = new ArrayList<>();
- 		List<Hospital> hospitals = new ArrayList<>();
-
- 		User user = userRepository.findByUserId(id);
-
- 		user.getUserHospitals().stream().forEach(e -> hospitals.add(e.getHospital()));
- 		for(Hospital hospital: hospitals){
-			HospitalDTO dto = new HospitalDTO.Builder()
-					.hospitalId(hospital.getHospitalId())
-					.hospitalName(hospital.getHospitalName())
-					.address(hospital.getAddress())
-					.website(hospital.getWebsite())
-					.phoneNumber(hospital.getPhoneNumber())
-					.create();
-			toReturn.add(dto);
-		}
-		return toReturn;
-	}
 
 	public List<CartProductDTO> findUserShoppingCart(int id){
          List<CartProductDTO> toReturn = new ArrayList<>();

@@ -26,10 +26,6 @@ public class Hospital implements java.io.Serializable{
     private String website;
     private String phoneNumber;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "hospital", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private List<UserHospital> userHospitals;
-
     public Hospital(){
 
     }
@@ -40,7 +36,6 @@ public class Hospital implements java.io.Serializable{
         this.address = address;
         this.website = website;
         this.phoneNumber = phoneNumber;
-        this.userHospitals = new ArrayList<>();
     }
 
     public Integer getHospitalId() {
@@ -83,11 +78,4 @@ public class Hospital implements java.io.Serializable{
         this.phoneNumber = phoneNumber;
     }
 
-    public List<UserHospital> getUserHospitals() {
-        return userHospitals;
-    }
-
-    public void setUserHospitals(List<UserHospital> userHospitals) {
-        this.userHospitals = userHospitals;
-    }
 }

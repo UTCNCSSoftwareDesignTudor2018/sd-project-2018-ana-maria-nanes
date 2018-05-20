@@ -33,11 +33,6 @@ public class User implements java.io.Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<UserDisease> userDiseases;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<UserHospital> userHospitals;
-
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "user")
     private ShoppingCart shoppingCart;
@@ -64,7 +59,6 @@ public class User implements java.io.Serializable {
         this.gender = gender;
         this.role = role;
         this.userDiseases = new ArrayList<>();
-        this.userHospitals = new ArrayList<>();
     }
 
 
@@ -138,14 +132,6 @@ public class User implements java.io.Serializable {
 
     public void setUserDiseases(List<UserDisease> userDiseases) {
         this.userDiseases = userDiseases;
-    }
-
-    public List<UserHospital> getUserHospitals() {
-        return userHospitals;
-    }
-
-    public void setUserHospitals(List<UserHospital> userHospitals) {
-        this.userHospitals = userHospitals;
     }
 
     public ShoppingCart getShoppingCart() {

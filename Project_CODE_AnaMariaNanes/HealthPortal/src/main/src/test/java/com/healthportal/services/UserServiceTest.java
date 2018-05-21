@@ -3,12 +3,15 @@ package com.healthportal.services;
 import com.healthportal.dto.UserDTO;
 import com.healthportal.entities.User;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
+
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-
+@RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 
     @Test

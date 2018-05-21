@@ -32,12 +32,22 @@ public class HospitalController {
     }
 
     @RequestMapping(value= "/added", method = RequestMethod.POST)
-    public Hospital addHospital(@RequestBody Hospital hospital) {
-        return hospitalService.addHospital(hospital);
+    public Hospital addHospital(@RequestBody Hospital hospital)  {
+        try {
+            return hospitalService.addHospital(hospital);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Hospital updateHospital(@PathVariable("id") int id,@RequestBody Hospital hospital) {
-        return hospitalService.updateHospital(id,hospital);
+    public Hospital updateHospital(@PathVariable("id") int id,@RequestBody Hospital hospital)  {
+       try {
+           return hospitalService.updateHospital(id, hospital);
+       }catch(Exception e){
+            System.out.println(e.getMessage());
+       }
+       return null;
     }
 }

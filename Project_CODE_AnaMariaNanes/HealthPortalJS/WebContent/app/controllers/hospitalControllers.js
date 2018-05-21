@@ -62,11 +62,20 @@
 		                    'Content-Type': 'application/json;charset=utf-8;'
 		                }
 		            }
-
+                    
+		       
 		            $http.post('http://localhost:8081/health-portal' + '/hospital/added', data, _config)
 		            .success(function(){
-		            	$scope.feedbackMessage = "The hospital was successfully inserted in the system.";
 		            	
+		                if($scope.phoneNumber.length != 10 || $scope.phoneNumber.match(/^[0-9]+$/) == null){
+			            	$scope.feedbackMessage = "An error occured! The hospital was not inserted in the system!";
+			            }
+		                else{
+		                	$scope.feedbackMessage = "The hospital was successfully inserted in the system.";
+			            	
+		                }
+
+			                        	
 		            	$scope.hospitalName = "";
 		    		    $scope.address = "";
 		    		    $scope.website = "";
@@ -81,7 +90,7 @@
 		    		    $scope.phoneNumber = "";
 		    		    	
 		            })
-		                   
+		            
 		        };
 
 		} ]);
@@ -132,7 +141,16 @@
 			            
 			           HospitalFactory.updateHospital(id,data,_config)
 			           .success(function(){
-			        	   $scope.feedbackMessage ="The hospital info was successfully updated.";
+			        	   
+			        	   if($scope.hospital.phoneNumber.length != 10 || $scope.hospital.phoneNumber.match(/^[0-9]+$/) == null){
+			        		   $scope.feedbackMessage ="An error occured while updating the hospital info.";
+				            }
+			                else{
+			               	   $scope.feedbackMessage ="The hospital info was successfully updated.";
+				            	
+			                }
+
+			        	   
 			           })
 			           .error(function(){
 			        	   $scope.feedbackMessage ="An error occured while updating the hospital info.";

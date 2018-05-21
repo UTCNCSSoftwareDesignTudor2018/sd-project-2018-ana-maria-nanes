@@ -38,6 +38,13 @@ public class Hospital implements java.io.Serializable{
         this.phoneNumber = phoneNumber;
     }
 
+    public Hospital(String hospitalName, String address, String website, String phoneNumber) {
+        this.hospitalName = hospitalName;
+        this.address = address;
+        this.website = website;
+        this.phoneNumber = phoneNumber;
+    }
+
     public Integer getHospitalId() {
         return hospitalId;
     }

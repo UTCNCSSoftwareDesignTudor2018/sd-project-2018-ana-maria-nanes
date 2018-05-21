@@ -4,12 +4,15 @@ import com.healthportal.dto.ProductDTO;
 import com.healthportal.entities.Product;
 import com.healthportal.repositories.ProductRepository;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ProductServiceTest {
     @Test
     public void findAllByType() throws Exception {

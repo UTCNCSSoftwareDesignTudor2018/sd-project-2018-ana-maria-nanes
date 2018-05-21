@@ -2,10 +2,10 @@ package com.healthportal.services;
 
 import com.healthportal.dto.*;
 import com.healthportal.entities.*;
-import com.healthportal.errorhandler.EntityValidationException;
 import com.healthportal.errorhandler.ResourceNotFoundException;
 import com.healthportal.repositories.ProductRepository;
 import com.healthportal.repositories.UserRepository;
+import com.healthportal.validators.UserValidator;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -28,6 +28,9 @@ public class UserService {
 
 	@Inject
     private RecommendedProductService recommendedProductService;
+
+	@Inject
+	private UserValidator userValidator;
 
 	public UserDTO findByUserid(int userID) {
 
@@ -107,34 +110,40 @@ public class UserService {
 		userRepository.delete(userToDelete);
 	}
 	
-	public User addUser(User user){
+	public User addUser(User user)throws  Exception{
 	
 		if (user == null) {
 			throw new ResourceNotFoundException(User.class.getSimpleName());
 		}
-		
-		User usr = userRepository.save(user);	
-		return usr;
+
+		if(userValidator.validateCreateUser(user)){
+			User usr = userRepository.save(user);
+			return usr;
+		}
+		else throw new Exception("User data not valid");
 	}
 	
-      public User updateUser(int userID,User user){
+      public User updateUser(int userID,User user) throws Exception{
  		
  		if (user == null) {
  			throw new ResourceNotFoundException(User.class.getSimpleName());
  		}
- 		
- 		User initialUser = userRepository.findByUserId(userID);
- 	
- 		initialUser.setName(user.getName());
- 		initialUser.setUsername(user.getUsername());
- 		initialUser.setRole(user.getRole());
- 		initialUser.setPassword(user.getPassword());
- 		initialUser.setAddress(user.getAddress());
- 		initialUser.setAge(user.getAge());
- 		initialUser.setGender(user.getGender());
- 			
- 	    User usr = userRepository.save(initialUser);	
- 		return usr;
+
+ 		if(userValidator.validateUpdateUser(user)){
+			  User initialUser = userRepository.findByUserId(userID);
+
+			  initialUser.setName(user.getName());
+			  initialUser.setUsername(user.getUsername());
+			  initialUser.setRole(user.getRole());
+			  initialUser.setPassword(user.getPassword());
+			  initialUser.setAddress(user.getAddress());
+			  initialUser.setAge(user.getAge());
+			  initialUser.setGender(user.getGender());
+
+			  User usr = userRepository.save(initialUser);
+			  return usr;
+		  }
+		  else throw new Exception("User data not valid");
  	}
 
  	public List<UserDiseaseDTO> findUserDiseases(int id){
@@ -228,49 +237,6 @@ public class UserService {
         }
         return toReturn;
     }
-
-	public int create(UserDTO userDTO) {
-
-		List<String> validationErrors = validateUser(userDTO);
-		if (!validationErrors.isEmpty()) {
-			throw new EntityValidationException(User.class.getSimpleName(), validationErrors);
-		}
-
-		User user = new User();
-		user.setUserId(userDTO.getUserId());
-		user.setName(userDTO.getName());
-		user.setUsername(userDTO.getUsername());
-		user.setRole(userDTO.getRole());
-		user.setPassword(userDTO.getPassword());
-		user.setGender(userDTO.getGender());
-		user.setAddress(userDTO.getAddress());
-		user.setAge(userDTO.getAge());
-
-        User usr = userRepository.save(user);
-		return usr.getUserId();
-	}
-
-
-	private List<String> validateUser(UserDTO user) {
-		List<String> validationErrors = new ArrayList<String>();
-
-		if (user.getUserId() == null) {
-			validationErrors.add("ID field should not be empty.");
-		}
-
-		if (user.getUsername() == null || "".equals(user.getUsername())) {
-			validationErrors.add("UserName field should not be empty.");
-		}
-
-		if (user.getRole() == null || "".equals(user.getRole())) {
-			validationErrors.add("Role field should not be empty.");
-		}
-		
-		if (user.getPassword() == null || "".equals(user.getPassword()) || user.getPassword().length()<4) {
-			validationErrors.add("Password field should not be empty.");
-		}
-		return validationErrors;
-	}
 
 	public void obtainUserRecommendedList(int userId){
 	     User user = userRepository.findByUserId(userId);

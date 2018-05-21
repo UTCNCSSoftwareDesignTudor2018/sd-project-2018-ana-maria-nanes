@@ -4,6 +4,7 @@ import com.healthportal.dto.HospitalDTO;
 import com.healthportal.entities.Hospital;
 import com.healthportal.errorhandler.ResourceNotFoundException;
 import com.healthportal.repositories.HospitalRepository;
+import com.healthportal.validators.HospitalValidator;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -15,6 +16,9 @@ public class HospitalService {
 
     @Inject
     private HospitalRepository hospitalRepository;
+
+    @Inject
+    private HospitalValidator hospitalValidator;
 
     public HospitalDTO findByHospitalId(int id) {
 
@@ -78,30 +82,38 @@ public class HospitalService {
         hospitalRepository.delete(hospital);
     }
 
-    public Hospital addHospital(Hospital hospital){
+    public Hospital addHospital(Hospital hospital) throws Exception{
 
         if(hospital == null){
             throw new ResourceNotFoundException(Hospital.class.getSimpleName());
         }
 
-        Hospital newHospital = hospitalRepository.save(hospital);
-        return newHospital;
+        if(hospitalValidator.validateCreateHospital(hospital) == true){
+            Hospital newHospital = hospitalRepository.save(hospital);
+            return newHospital;
+        }
+
+        else throw new Exception("Hospital data not valid");
     }
 
-    public Hospital updateHospital(int hospitalId,Hospital hospital){
+    public Hospital updateHospital(int hospitalId,Hospital hospital) throws  Exception{
         if (hospital == null) {
             throw new ResourceNotFoundException(Hospital.class.getSimpleName());
         }
 
-        Hospital initialHospital = hospitalRepository.findByHospitalId(hospitalId);
+        if(hospitalValidator.validateUpdateHospital(hospital) == true){
+            Hospital initialHospital = hospitalRepository.findByHospitalId(hospitalId);
 
-        initialHospital.setHospitalName(hospital.getHospitalName());
-        initialHospital.setAddress(hospital.getAddress());
-        initialHospital.setWebsite(hospital.getWebsite());
-        initialHospital.setPhoneNumber(hospital.getPhoneNumber());
+            initialHospital.setHospitalName(hospital.getHospitalName());
+            initialHospital.setAddress(hospital.getAddress());
+            initialHospital.setWebsite(hospital.getWebsite());
+            initialHospital.setPhoneNumber(hospital.getPhoneNumber());
 
-        Hospital hosp = hospitalRepository.save(initialHospital);
-        return hosp;
+            Hospital hosp = hospitalRepository.save(initialHospital);
+            return hosp;
+        }
+        else throw  new Exception("Hospital data not valid");
+
     }
 
 }

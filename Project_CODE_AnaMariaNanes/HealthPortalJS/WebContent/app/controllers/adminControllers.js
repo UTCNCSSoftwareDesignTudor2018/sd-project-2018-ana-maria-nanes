@@ -35,7 +35,14 @@
 		            
 		           AdminFactory.updateAdmin(id,data,_config)
 		           .success(function(){
-		        	   $scope.feedbackMessage ="The admin account info was successfully updated.";
+		        	   
+		        	   if(($scope.admin.gender!="female" && $scope.admin.gender!="male") || $scope.admin.age <=0){
+		        		   $scope.feedbackMessage ="An error occured while updating the admin account info.";
+		        	   }
+		        	   else{
+		               	   $scope.feedbackMessage ="The admin account info was successfully updated.";
+		        	   }
+		 
 		           })
 		           .error(function(){
 		        	   $scope.feedbackMessage ="An error occured while updating the admin account info.";

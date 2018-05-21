@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @CrossOrigin(origins = "*")                      //in order to allow to post on other localhost port
@@ -48,13 +49,22 @@ public class ProductController {
 
     @RequestMapping(value= "/added", method = RequestMethod.POST)
     public Product addProduct(@RequestBody Product product) {
-
-        return productService.addProduct(product);
+        try {
+            return productService.addProduct(product);
+        }catch(Exception e){
+            System.out.println();
+        }
+        return null;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Product updateProduct(@PathVariable("id") int id,@RequestBody Product product) {
-        return productService.updateProduct(id,product);
+        try {
+            return productService.updateProduct(id, product);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
 }

@@ -83,7 +83,15 @@
 
 		            $http.post('http://localhost:8081/health-portal' + '/user/added', data, _config)
 		            .success(function(){
-		            	$window.alert("The account has been created.");
+		            	
+		            	
+		            	if(($scope.gender!="female" && $scope.gender!="male") || $scope.age <=0 ||
+								($scope.role!="user" && $scope.role!="admin")){
+		            		$window.alert("An error occured! The account has not been created.");
+		            	}
+		            	else{
+		            		$window.alert("The account has been created.");
+		            	}
 		            	
 		            	$scope.name = "";
 		    		    $scope.username = "";

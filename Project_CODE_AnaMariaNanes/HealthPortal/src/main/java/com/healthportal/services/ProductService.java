@@ -4,6 +4,7 @@ import com.healthportal.dto.ProductDTO;
 import com.healthportal.entities.Product;
 import com.healthportal.errorhandler.ResourceNotFoundException;
 import com.healthportal.repositories.ProductRepository;
+import com.healthportal.validators.ProductValidator;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -15,6 +16,10 @@ public class ProductService {
 
     @Inject
     private ProductRepository productRepository;
+
+    @Inject
+    private ProductValidator productValidator;
+
 
     public ProductDTO findByProductId(int id){
         Product product = productRepository.findByProductId(id);
@@ -101,31 +106,40 @@ public class ProductService {
 
     }
 
-    public Product addProduct(Product product){
+    public Product addProduct(Product product) throws  Exception{
         if (product == null) {
             throw new ResourceNotFoundException(Product.class.getSimpleName());
         }
 
-        Product newProduct = productRepository.save(product);
-        return newProduct;
+        if(productValidator.validateCreateProduct(product)){
+            Product newProduct = productRepository.save(product);
+            return newProduct;
+        }
+        else
+            throw new Exception("Product data is not valid.");
+
     }
 
-    public Product updateProduct(int productId,Product product){
+    public Product updateProduct(int productId,Product product) throws  Exception{
         if (product == null) {
             throw new ResourceNotFoundException(Product.class.getSimpleName());
         }
 
-        Product initialProduct = productRepository.findByProductId(productId);
-        initialProduct.setProductName(product.getProductName());
-        initialProduct.setBenefits(product.getBenefits());
-        initialProduct.setDistributor(product.getDistributor());
-        initialProduct.setPrice(product.getPrice());
-        initialProduct.setType(product.getType());
-        initialProduct.setStock(product.getStock());
-        initialProduct.setReadMoreLink(product.getReadMoreLink());
-        initialProduct.setDiseaseList(product.getDiseaseList());
+        if(productValidator.validateUpdateProduct(product)){
+            Product initialProduct = productRepository.findByProductId(productId);
+            initialProduct.setProductName(product.getProductName());
+            initialProduct.setBenefits(product.getBenefits());
+            initialProduct.setDistributor(product.getDistributor());
+            initialProduct.setPrice(product.getPrice());
+            initialProduct.setType(product.getType());
+            initialProduct.setStock(product.getStock());
+            initialProduct.setReadMoreLink(product.getReadMoreLink());
+            initialProduct.setDiseaseList(product.getDiseaseList());
 
-        Product pdr = productRepository.save(initialProduct);
-        return pdr;
+            Product pdr = productRepository.save(initialProduct);
+            return pdr;
+        }
+        else
+            throw new Exception("Product data is not valid.");
     }
 }

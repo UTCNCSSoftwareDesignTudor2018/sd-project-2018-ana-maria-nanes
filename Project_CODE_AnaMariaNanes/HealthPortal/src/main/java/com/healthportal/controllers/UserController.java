@@ -37,12 +37,22 @@ public class UserController {
 	 
 	 @RequestMapping(value= "/added", method = RequestMethod.POST)
 	 public User addUser(@RequestBody User user) {
-		 return userService.addUser(user);
+		try {
+			return userService.addUser(user);
+		}catch(Exception e){
+				System.out.println(e.getMessage());
+		}
+		return null;
 	 } 
 	 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	 public User updateUser(@PathVariable("id") int id,@RequestBody User user) {
-		 return userService.updateUser(id,user);
+		try {
+			return userService.updateUser(id, user);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		return null;
 	 }
 
 	@RequestMapping(value = "/{id}/diseases", method = RequestMethod.GET)

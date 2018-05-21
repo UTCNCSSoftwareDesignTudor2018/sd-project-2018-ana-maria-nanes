@@ -80,7 +80,13 @@
 											.updateUser(id, data, _config)
 											.success(
 													function() {
-														$scope.feedbackMessage = "The user account info was successfully updated.";
+														
+														if(($scope.user.gender!="female" && $scope.user.gender!="male") || $scope.user.age <=0 ){
+															$scope.feedbackMessage = "An error occured while updating the user account info.";
+														}
+														else{
+															$scope.feedbackMessage = "The user account info was successfully updated.";
+														}
 													})
 											.error(
 													function() {

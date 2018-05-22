@@ -82,7 +82,14 @@
 													data, _config)
 											.success(
 													function() {
-														$scope.feedbackMessage = "The fruit was successfully inserted in the system.";
+														
+														
+														 if($scope.stock < 10 || $scope.price <= 0){
+															 $scope.feedbackMessage = "An error occured! The fruit was not inserted in the system!";
+												            }
+											                else{
+											                	$scope.feedbackMessage = "The fruit was successfully inserted in the system.";												            	
+											                }
 
 														$scope.productName = "";
 														$scope.benefits = "";
@@ -167,8 +174,14 @@
 									FruitFactory
 											.updateFruit(id, data, _config)
 											.success(
-													function() {
-														$scope.feedbackMessage = "The fruit info was successfully updated.";
+													function() {												
+														
+														if($scope.fruit.stock < 10 || $scope.fruit.price <= 0){
+															    $scope.feedbackMessage = "An error occured while updating the fruit info.";
+												            }
+											                else{
+											                	$scope.feedbackMessage = "The fruit info was successfully updated.";											            	
+											                }
 													})
 											.error(
 													function() {

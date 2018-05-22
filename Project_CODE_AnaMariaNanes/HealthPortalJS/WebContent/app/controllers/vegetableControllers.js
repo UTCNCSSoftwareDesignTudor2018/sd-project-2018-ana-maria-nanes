@@ -69,8 +69,14 @@
 
 		            $http.post('http://localhost:8081/health-portal' + '/product/added', data, _config)
 		            .success(function(){
-		            	$scope.feedbackMessage = "The vegetable was successfully inserted in the system.";
-		            	
+
+		           	 if($scope.stock < 10 || $scope.price <= 0){
+		           	   	    $scope.feedbackMessage = "An error occured! The vegetable was not inserted in the system!";
+			            }
+		                else{
+			            	$scope.feedbackMessage = "The vegetable was successfully inserted in the system.";									            	
+		                }
+		           	 
 		            	$scope.productName = "";
 		    		    $scope.benefits = "";
 		    		    $scope.distributor = "";
@@ -78,8 +84,7 @@
 		    		    $scope.stock = "";
 		    		    $scope.diseaseList = "";
 		    		    $scope.readMoreLink = ""
-
-		    		    	
+	    		    	
 		            }).error(function(){
 		            	$scope.feedbackMessage = "An error occured! The vegetable was not inserted in the system!";
 		            	
@@ -140,8 +145,15 @@
 			            }
 			            
 			           VegetableFactory.updateVegetable(id,data,_config)
-			           .success(function(){
-			        	   $scope.feedbackMessage ="The vegetable info was successfully updated.";
+			           .success(function(){  
+			        	   
+			        		if($scope.vegetable.stock < 10 || $scope.vegetable.price <= 0){
+			        			   $scope.feedbackMessage ="An error occured while updating the vegetable info.";
+			        	    }
+			        	    else{
+			        	    	   $scope.feedbackMessage ="The vegetable info was successfully updated.";								            	
+			        	    }
+			        		
 			           })
 			           .error(function(){
 			        	   $scope.feedbackMessage ="An error occured while updating the vegetable info.";

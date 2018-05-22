@@ -482,7 +482,6 @@
 				}
 			}
 
-			$window.alert("pressed");
 			UserFactory.createRecommendation(userId,data,_config);
 			$window.location.reload();
 		}

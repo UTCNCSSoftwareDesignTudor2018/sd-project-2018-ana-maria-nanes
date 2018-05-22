@@ -69,8 +69,14 @@
 
 		            $http.post('http://localhost:8081/health-portal' + '/product/added', data, _config)
 		            .success(function(){
-		            	$scope.feedbackMessage = "The herb was successfully inserted in the system.";
 		            	
+		            	 if($scope.stock < 10 || $scope.price <= 0){
+		            		 $scope.feedbackMessage = "An error occured! The herb was not inserted in the system!";
+				            }
+			                else{
+			                	$scope.feedbackMessage = "The herb was successfully inserted in the system.";										            	
+			                }
+            	
 		            	$scope.productName = "";
 		    		    $scope.benefits = "";
 		    		    $scope.distributor = "";
@@ -81,8 +87,8 @@
 
 		    		    	
 		            }).error(function(){
-		            	$scope.feedbackMessage = "An error occured! The herb was not inserted in the system!";
 		            	
+		         		$scope.feedbackMessage = "An error occured! The herb was not inserted in the system!";
 		            	$scope.productName = "";
 		    		    $scope.benefits = "";
 		    		    $scope.distributor = "";
@@ -144,7 +150,14 @@
 			            
 			           HerbFactory.updateHerb(id,data,_config)
 			           .success(function(){
-			        	   $scope.feedbackMessage ="The herb info was successfully updated.";
+			        	   
+			        		if($scope.herb.stock < 10 || $scope.herb.price <= 0){
+			        			 $scope.feedbackMessage ="An error occured while updating the herb info.";
+			        	    }
+			        	    else{
+					        	   $scope.feedbackMessage ="The herb info was successfully updated.";										            	
+			        	    }
+			        	   
 			           })
 			           .error(function(){
 			        	   $scope.feedbackMessage ="An error occured while updating the herb info.";

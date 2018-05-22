@@ -1,6 +1,8 @@
 Ana-Maria Nanes
+==
 
 Project: Online Health Shopping Portal
+==
 
 Architectural Styles:
 
@@ -16,8 +18,6 @@ Design Patterns:
   *Observer Design Pattern
   
   *Builder Design Pattern
-  
-  *Factory Design Pattern
   
 Database relationships:
 
